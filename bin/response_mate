@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require 'response_mate'
+
+ResponseMate::Thor.start(ARGV)
