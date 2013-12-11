@@ -31,8 +31,10 @@ module ResponseMate
     end
 
     desc 'Exports to one of the available formats', 'Exports'
+    method_option :requests_manifest
+    method_option :format
     def export
-
+      puts ResponseMate::Exporter.new(options.symbolize_keys).export
     end
   end
 end
