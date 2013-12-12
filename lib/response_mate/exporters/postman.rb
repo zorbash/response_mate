@@ -12,7 +12,7 @@ module ResponseMate::Exporters
     def export
       build_structure
       build_requests
-      out.to_json
+      out
     end
 
     private
