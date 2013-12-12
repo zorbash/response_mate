@@ -6,6 +6,7 @@ require 'active_support/all'
 require 'faraday'
 require 'faraday_middleware'
 require 'addressable/uri'
+require 'highline/import'
 
 require "response_mate/version"
 require "response_mate/core"
