@@ -4,12 +4,12 @@ module ResponseMate
   class Recorder
     include ResponseMate::ManifestParser
 
-    attr_accessor :base_url, :conn, :requests_manifest, :manifest, :oauth
+    attr_accessor :base_url, :conn, :requests_manifest, :manifest, :oauth, :keys
 
     def initialize(args = {})
       @requests_manifest = args[:requests_manifest] || ResponseMate.configuration.
         requests_manifest
-
+      @keys = args[:keys]
       @oauth = ResponseMate::Oauth.new
       parse_requests_manifest
 
@@ -18,7 +18,9 @@ module ResponseMate
     end
 
     def record
-      manifest['requests'].compact.each do |request|
+      requests = manifest['requests'].compact
+      requests.select! { |r| keys.include? r['key'] } if keys.present?
+      requests.each do |request|
         process request['key'], request['request']
       end
     end
@@ -34,7 +36,7 @@ module ResponseMate
         request[:params] = { 'oauth_token' => oauth.token }
       end
 
-      puts "#{request[:verb]}".cyan_on_black.bold <<  " #{request[:path]}"
+      puts "[#{key}] #{request[:verb]}".cyan_on_black.bold <<  " #{request[:path]}"
       puts "\tparams #{request[:params]}" if request[:params].present?
       write_to_file(key, request, fetch(request))
     end
