@@ -5,9 +5,9 @@ module ResponseMate
     package_name 'response_mate'
 
     desc 'Perform requests and records their output', 'Records'
-    method_option :base_url
-    method_option :requests_manifest
-    method_option :keys
+    method_option :base_url, aliases: '-b'
+    method_option :requests_manifest, aliases: '-r'
+    method_option :keys, aliases: '-k'
     def record
       ResponseMate::Recorder.new(options.symbolize_keys).record
       File.open(ResponseMate.configuration.output_dir + '.last_recording', 'w') do |f|
@@ -34,9 +34,9 @@ module ResponseMate
     end
 
     desc 'Exports to one of the available formats', 'Exports'
-    method_option :requests_manifest
-    method_option :format
-    method_option :pretty, default: false
+    method_option :requests_manifest, aliases: '-r'
+    method_option :format, aliases: '-f'
+    method_option :pretty, aliases: '-p', default: false
     def export
       output = ResponseMate::Exporter.new(options.symbolize_keys).export
       if options[:pretty]
