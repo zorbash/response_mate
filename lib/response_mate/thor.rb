@@ -38,7 +38,15 @@ module ResponseMate
     method_option :format, aliases: '-f'
     method_option :pretty, aliases: '-p', default: false
     def export
-      output = ResponseMate::Exporter.new(options.symbolize_keys).export
+      opts = options.dup
+      unless options[:format].present?
+        opts[:format] = choose { |menu|
+          menu.prompt = "Please pick one of the available formats"
+          menu.choice(:postman)
+        }.to_s
+      end
+
+      output = ResponseMate::Exporter.new(opts.symbolize_keys).export
       if options[:pretty]
         puts JSON.pretty_generate(output)
       else
