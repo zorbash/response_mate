@@ -43,9 +43,10 @@ module ResponseMate
 
     def fetch(request)
       conn.params = request[:params] if !request[:params].nil?
-      conn.send request[:verb].downcase.to_sym, request[:path]
+      conn.send request[:verb].downcase.to_sym, "#{base_url}#{request[:path]}"
     rescue Faraday::Error::ConnectionFailed
       puts "Is a server up and running at #{request[:path]}?".red
+      exit 1
     end
 
     def format_request_string(request)
