@@ -9,7 +9,12 @@ module ResponseMate::ManifestParser
   }
 
   def preprocess_manifest
-    @requests_text = File.read requests_manifest
+    begin
+      @requests_text = File.read requests_manifest
+    rescue Errno::ENOENT
+      puts requests_manifest.red << " does not seem to exist"
+      exit 1
+    end
     if @requests_manifest =~ /\.erb$/
       @requests_text = ERB.new(@requests_text).result(binding)
     end
