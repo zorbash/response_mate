@@ -7,6 +7,9 @@ tmp
 .rvmrc
 .rbenv*
 
+output
+oauth.yml
+
 *.gem
 .bundle
 
