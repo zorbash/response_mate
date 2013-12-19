@@ -75,7 +75,7 @@ module ResponseMate
         f << {
           request: request.select { |_, v| !v.nil? },
           status: response.status,
-          headers: response.headers,
+          headers: response.headers.to_hash,
           body: response.body
         }.to_yaml
       end
