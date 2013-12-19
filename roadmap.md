@@ -5,4 +5,5 @@
    output.
 4. Support mustache templates in favor of erb
 5. Export environment.yml to postman format
-6. Add usage instructions in README.md
+6. Accept extra params/headers from cli
+7. Add usage instructions in README.md
