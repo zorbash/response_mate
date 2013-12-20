@@ -9,3 +9,6 @@
 7. Extract Manifest to a separate class
 8. Add usage instructions in README.md
 9. Remove support for .yml.erb request manifests
+
+## Milestone 0.2.0
+1. Request helpers (random ids, uuids)
