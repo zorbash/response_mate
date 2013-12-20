@@ -8,3 +8,4 @@
 6. Accept extra params/headers from cli
 7. Extract Manifest to a separate class
 8. Add usage instructions in README.md
+9. Remove support for .yml.erb request manifests
