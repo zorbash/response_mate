@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    response_mate (0.0.1)
+    response_mate (0.0.5)
       activesupport
       addressable
       awesome_print
@@ -9,6 +9,7 @@ PATH
       faraday
       faraday_middleware
       highline
+      mustache
       thor (~> 0.18.1)
 
 GEM
@@ -37,6 +38,7 @@ GEM
     minitest (4.7.5)
     multi_json (1.8.2)
     multipart-post (1.2.0)
+    mustache (0.99.4)
     pry (0.9.12.2)
       coderay (~> 1.0.5)
       method_source (~> 0.8)
