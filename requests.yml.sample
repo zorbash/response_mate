@@ -1,0 +1,16 @@
+base_url: http://localhost:3000/api
+default_headers:
+  accept: 'application/vnd.github.beta+json'
+requests:
+  -
+    key: user_repos
+    request: 'GET /user/repos'
+  -
+    key: user_issues
+    request:
+      path: '/user/issues'
+      params:
+        sort: 'updated'
+  -
+    key: users_repos
+    request: 'GET /users/{{some_user_id}}/repos'
