@@ -7,7 +7,7 @@ module ResponseMate
     desc 'Perform requests and records their output', 'Records'
     method_option :base_url, aliases: '-b'
     method_option :requests_manifest, aliases: '-r'
-    method_option :keys, aliases: '-k'
+    method_option :keys, aliases: '-k', type: :array
     def record
       ResponseMate::Recorder.new(options.symbolize_keys).record
       File.open(ResponseMate.configuration.output_dir + '.last_recording', 'w') do |f|
