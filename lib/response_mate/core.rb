@@ -9,7 +9,7 @@ module ResponseMate
 
     def initialize
       @output_dir = './output/responses/'
-      @requests_manifest = './requests.yml.erb'
+      @requests_manifest = './requests.yml'
       @oauth_manifest = './oauth.yml'
     end
   end

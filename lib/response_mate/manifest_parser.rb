@@ -15,9 +15,9 @@ module ResponseMate::ManifestParser
       puts requests_manifest.red << " does not seem to exist"
       exit 1
     end
-    if @requests_manifest =~ /\.erb$/
-      @requests_text = ERB.new(@requests_text).result(binding)
-    end
+
+    environment = {} # Later to be replaced by a hash of the environment vars
+    @requests_text = Mustache.render(@requests_text, environment)
   end
 
   def parse_request(request)
