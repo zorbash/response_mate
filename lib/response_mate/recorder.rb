@@ -21,14 +21,15 @@ module ResponseMate
       requests = manifest['requests'].compact
       requests.select! { |r| keys.include? r['key'] } if keys.present?
       requests.each do |request|
-        process request['key'], request['request']
+        process request['key'], request
       end
     end
 
     private
 
     def process(key, request)
-      request = parse_request(request)
+      meta = request['meta']
+      request = parse_request(request['request'])
 
       if request[:params].present?
         request[:params].merge!({ 'oauth_token' => oauth.token })
@@ -38,7 +39,7 @@ module ResponseMate
 
       puts "[#{key}] #{request[:verb]}".cyan_on_black.bold <<  " #{request[:path]}"
       puts "\tparams #{request[:params]}" if request[:params].present?
-      write_to_file(key, request, fetch(request))
+      write_to_file(key, request, fetch(request), meta)
     end
 
     def fetch(request)
@@ -70,14 +71,18 @@ module ResponseMate
       end
     end
 
-    def write_to_file(key, request, response)
+    def write_to_file(key, request, response, meta = {})
       File.open("#{ResponseMate.configuration.output_dir}#{key}.yml", 'w') do |f|
-        f << {
+        file_content = {
           request: request.select { |_, v| !v.nil? },
           status: response.status,
           headers: response.headers.to_hash,
           body: response.body
-        }.to_yaml
+        }
+
+        file_content.merge!({ meta: meta }) if meta.present?
+
+        f << file_content.to_yaml
       end
     end
 
