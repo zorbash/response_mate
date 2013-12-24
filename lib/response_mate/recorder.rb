@@ -4,7 +4,7 @@ module ResponseMate
   class Recorder
     include ResponseMate::ManifestParser
 
-    attr_accessor :base_url, :conn, :requests_manifest, :manifest, :oauth, :keys
+    attr_accessor :base_url, :conn, :manifest, :oauth, :keys
 
     def initialize(args = {})
       @manifest = args[:manifest]
