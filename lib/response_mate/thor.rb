@@ -1,5 +1,4 @@
 # coding: utf-8
-Signal.trap('EXIT') { puts 'Exiting..' }
 
 module ResponseMate
   class Thor < ::Thor
@@ -17,24 +16,32 @@ module ResponseMate
       File.open(ResponseMate.configuration.output_dir + '.last_recording', 'w') do |f|
         f << Time.current
       end
+
+    rescue ResponseMate::OutputDirError
+      puts 'Output directory does not exist, invoking setup..'
+      puts 'Please retry after setup'
+      invoke :setup, []
+    end
+
+    desc 'Perform requests and prints their output', 'Records'
+    method_option :base_url, aliases: '-b'
+    method_option :requests_manifest, aliases: '-r'
+    method_option :interactive, type: :boolean, aliases: "-i"
+    method_option :print, type: :string, aliases: '-p', default: 'raw'
+    def inspect(*keys)
+      ResponseMate::Commands::Inspect.new(args, options).run
     end
 
     desc 'Initializes the required directory structure', 'Initializes'
-    def setup
-      FileUtils.mkdir_p ResponseMate.configuration.output_dir
+    def setup(output_dir = ResponseMate.configuration.output_dir)
+      FileUtils.mkdir_p(output_dir)
+      puts "[Setup] Initialized empty directory #{output_dir}"
     end
 
     desc 'Deletes existing response files', 'Cleans up recordings'
     def clear
       FileUtils.rm_rf(ResponseMate.configuration.output_dir + '.')
       puts "All clean and shiny!"
-    end
-
-    desc 'Lists available recordings', 'Recording listing'
-    def list
-      Dir.glob('output/responses/*.yml').map do |f|
-        puts File.basename(f).gsub(/\.yml/, '')
-      end
     end
 
     desc 'Lists available recordings or keys to record', 'Recording listing'
@@ -44,19 +51,40 @@ module ResponseMate
       manifest = ResponseMate::Manifest.new(opts[:requests_manifest])
 
       if type == "requests"
-        choices = manifest['requests'].map { |r| r['key'].to_sym }
+        choices = manifest.requests.map { |r| r.key.to_sym }
       elsif type == "recordings"
         choices = Dir.glob('output/responses/*.yml').map do |f|
           File.basename(f).gsub(/\.yml/, '').to_sym
         end
       end
 
-      key = choose { |menu|
-        menu.prompt = 'Record any of the following?'
-        menu.choices(*choices)
-      }.to_s
+      puts choices.join "\n"
+      puts "\n\n"
+      action = choose { |menu|
+        menu.prompt = 'Want to perform any of the following actions?'
+        menu.choices(:record, :inspect, :no)
+      }
 
-      ResponseMate::Recorder.new({ manifest: manifest, keys: [key] }).record if key
+      unless action == :no
+        key = choose { |menu|
+          menu.prompt = 'Which one?'
+          menu.choices(*choices)
+        }.to_s
+      end
+
+      if key
+        case action
+        when :record
+          ResponseMate::Recorder.new({ manifest: manifest, keys: [key] }).record if key
+        when :inspect
+          ResponseMate::Inspector.new(manifest: manifest).inspect_key(key)
+        end
+      end
+
+    rescue ResponseMate::OutputDirError
+      puts 'Output directory does not exist, invoking setup..'
+      puts 'Please retry after setup'
+      invoke :setup, []
     end
 
     desc 'Exports to one of the available formats', 'Exports'

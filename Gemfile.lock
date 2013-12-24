@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    response_mate (0.0.5)
+    response_mate (0.0.9)
       activesupport
       addressable
       awesome_print
@@ -38,7 +38,7 @@ GEM
     minitest (4.7.5)
     multi_json (1.8.2)
     multipart-post (1.2.0)
-    mustache (0.99.4)
+    mustache (0.99.5)
     pry (0.9.12.2)
       coderay (~> 1.0.5)
       method_source (~> 0.8)

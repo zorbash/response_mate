@@ -8,18 +8,35 @@ require 'faraday_middleware'
 require 'addressable/uri'
 require 'highline/import'
 require 'mustache'
+require 'ostruct'
 
 require "response_mate/version"
-require "response_mate/helpers/application"
+
+require "response_mate/commands"
+
+# Load all commands
+Dir.glob(File.join(File.expand_path("..", __FILE__),
+  "response_mate/commands/*")).each(&method(:require))
+
+# Load all helpers
+Dir.glob(File.join(File.expand_path("..", __FILE__),
+  "response_mate/helpers/*")).each(&method(:require))
 require "response_mate/manifest_parser"
 require "response_mate/connection"
+require "response_mate/http"
 require "response_mate/core"
+require "response_mate/request"
 require "response_mate/manifest"
-require "response_mate/thor"
 require "response_mate/oauth"
 require "response_mate/tape"
 require "response_mate/recorder"
-require "response_mate/exporters/postman"
+require "response_mate/inspector"
+require "response_mate/thor"
 require "response_mate/exporter"
+
+# Load all exporters
+require "response_mate/exporters/postman"
+Dir.glob(File.join(File.expand_path("..", __FILE__),
+  "response_mate/exporters/*")).each(&method(:require))
 
 ResponseMate.setup

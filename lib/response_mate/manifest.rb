@@ -1,12 +1,11 @@
 class ResponseMate::Manifest
   include ResponseMate::ManifestParser
 
-  delegate :[], to: :requests
-
-  attr_accessor :filename, :requests, :requests_text
+  attr_accessor :filename, :requests, :requests_text, :base_url, :oauth
 
   def initialize(filename)
     @filename = filename || ResponseMate.configuration.requests_manifest
+    @oauth = ResponseMate::Oauth.new
     parse
   end
 
@@ -24,7 +23,20 @@ class ResponseMate::Manifest
 
   def parse
     preprocess_manifest
-    @requests = YAML.load(requests_text)
+    @request_hashes = YAML.load(requests_text)
+    @base_url = @request_hashes['base_url']
+    @requests = @request_hashes['requests'].map { |rh| ResponseMate::Request.new(rh) }
+    add_oauth_to_requests
+  end
+
+  def add_oauth_to_requests
+    @requests.each do |req|
+      if req[:params].present?
+        req[:params].merge!({ 'oauth_token' => oauth.token })
+      else
+        req[:params] = { 'oauth_token' => oauth.token }
+      end
+    end
   end
 
   class << self
