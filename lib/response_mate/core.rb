@@ -1,5 +1,9 @@
 # coding: utf-8
 module ResponseMate
+  DEFAULT_HEADERS = {
+    'User-Agent' => 'Response-Mate'
+  }
+
   class << self
     attr_accessor :configuration
   end

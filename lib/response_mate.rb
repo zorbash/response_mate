@@ -10,11 +10,14 @@ require 'highline/import'
 require 'mustache'
 
 require "response_mate/version"
-require "response_mate/core"
+require "response_mate/helpers/application"
 require "response_mate/manifest_parser"
+require "response_mate/connection"
+require "response_mate/core"
 require "response_mate/manifest"
 require "response_mate/thor"
 require "response_mate/oauth"
+require "response_mate/tape"
 require "response_mate/recorder"
 require "response_mate/exporters/postman"
 require "response_mate/exporter"
