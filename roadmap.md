@@ -7,8 +7,10 @@
 5. Export environment.yml to postman format
 6. Accept extra params/headers from cli
 7. Extract Manifest to a separate class ✓
-8. Add usage instructions in README.md
-9. Remove support for .yml.erb request manifests
+8. Add usage instructions in README.md [Done]
+9. Remove support for .yml.erb request manifests [Done]
+10. Export Connection as a separate class [Done]
+11. Export Tape as a separate class [Done]
 
 ## Milestone 0.2.0
 1. Request helpers (random ids, uuids)
