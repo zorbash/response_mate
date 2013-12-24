@@ -7,43 +7,4 @@ module ResponseMate::ManifestParser
   DEFAULT_REQUEST = {
     verb: 'GET'
   }
-
-  def preprocess_manifest
-    begin
-      @requests_text = File.read requests_manifest
-    rescue Errno::ENOENT
-      puts requests_manifest.red << " does not seem to exist"
-      exit 1
-    end
-
-    environment = {} # Later to be replaced by a hash of the environment vars
-    @requests_text = Mustache.render(@requests_text, environment)
-  end
-
-  def parse_request(request)
-    return parse_request_string(request) if request.is_a? String
-    parse_request_hash(request) if request.is_a? Hash
-  end
-
-  def parse_requests_manifest
-    preprocess_manifest
-    @manifest = YAML.load(@requests_text)
-  end
-
-  def parse_request_hash(hash)
-    DEFAULT_REQUEST.merge(hash.symbolize_keys)
-  end
-
-  def parse_request_string(request_string)
-    raise ArgumentError if request_string !~ REQUEST_MATCHER
-    { verb: $~[:verb] || DEFAULT_REQUEST[:verb] }.merge(extract_path_query($~[:path]))
-  end
-
-  def extract_path_query(str)
-    parsed = Addressable::URI.parse(str)
-    {
-      path: parsed.path,
-      params: parsed.query_values
-    }
-  end
 end

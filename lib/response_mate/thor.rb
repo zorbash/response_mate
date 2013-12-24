@@ -9,7 +9,10 @@ module ResponseMate
     method_option :requests_manifest, aliases: '-r'
     method_option :keys, aliases: '-k', type: :array
     def record
-      ResponseMate::Recorder.new(options.symbolize_keys).record
+      opts = options.dup.symbolize_keys
+      opts[:manifest] = ResponseMate::Manifest.new(opts[:requests_manifest])
+      ResponseMate::Recorder.new(opts).record
+
       File.open(ResponseMate.configuration.output_dir + '.last_recording', 'w') do |f|
         f << Time.current
       end

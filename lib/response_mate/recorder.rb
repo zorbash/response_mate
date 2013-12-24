@@ -7,12 +7,10 @@ module ResponseMate
     attr_accessor :base_url, :conn, :requests_manifest, :manifest, :oauth, :keys
 
     def initialize(args = {})
-      @requests_manifest = args[:requests_manifest] || ResponseMate.configuration.
-        requests_manifest
+      @manifest = args[:manifest]
+
       @keys = args[:keys]
       @oauth = ResponseMate::Oauth.new
-      parse_requests_manifest
-
       @base_url = args[:base_url] || manifest.try(:[], 'base_url')
       initialize_connection
     end
@@ -29,7 +27,7 @@ module ResponseMate
 
     def process(key, request)
       meta = request['meta']
-      request = parse_request(request['request'])
+      request = ResponseMate::Manifest.parse_request(request['request'])
 
       if request[:params].present?
         request[:params].merge!({ 'oauth_token' => oauth.token })
