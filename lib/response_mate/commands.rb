@@ -1,0 +1,1 @@
+module ResponseMate::Commands; end

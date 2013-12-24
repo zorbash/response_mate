@@ -1,5 +1,7 @@
 # coding: utf-8
 module ResponseMate
+  class OutputDirError < StandardError; end
+
   DEFAULT_HEADERS = {
     'User-Agent' => 'Response-Mate'
   }
