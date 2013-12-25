@@ -89,3 +89,9 @@ Exports a requests manifest file to a different format
 ### Specify a different request manifest
 
 `response_mate export -f postman -r foo_api.yml`
+
+
+# List of contributors
+
+- [zorbash](https://github.com/zorbash)
+- [jimmikarily](https://github.com/jimmykarily)
