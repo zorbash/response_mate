@@ -8,7 +8,9 @@ Gem::Specification.new do |spec|
   spec.version       = ResponseMate::VERSION
   spec.authors       = ["Dimitris Zorbas"]
   spec.email         = ["zorbash@skroutz.gr"]
-  spec.description   = %q{API automation tools}
+  spec.description   = <<-DESC
+    Cli tool to make inspecting and recording HTTP request fun again
+  DESC
   spec.summary       = %q{}
   spec.homepage      = ""
   spec.license       = "MIT"
