@@ -2,17 +2,14 @@
 
 module ResponseMate
   class Exporter
-    include ResponseMate::ManifestParser
-
-    attr_accessor :format, :handler, :requests_manifest, :manifest
+    attr_accessor :format, :handler, :manifest
 
     def initialize(args = {})
       @format = args[:format]
-      @requests_manifest = args[:requests_manifest]
+      @manifest = args[:manifest]
     end
 
     def export
-      parse_requests_manifest
       @handler = "ResponseMate::Exporters::#{format.capitalize}".safe_constantize.
         new manifest
       handler.export
