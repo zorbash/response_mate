@@ -1,5 +1,4 @@
 class ResponseMate::Connection
-
   delegate :params, to: :client
   delegate(*(ResponseMate::ManifestParser::HTTP_VERBS), to: :client)
 
@@ -18,7 +17,9 @@ class ResponseMate::Connection
 
   def fetch(request)
     client.params = request[:params] if !request[:params].nil?
-    request[:path] = 'http://' + request[:path] unless request[:path] =~ /^http:\/\//
+    unless base_url || request[:path] =~ /^http:\/\//
+      request[:path] = 'http://' + request[:path]
+    end
     client.send request[:verb].downcase.to_sym, "#{base_url}#{request[:path]}"
   rescue Faraday::Error::ConnectionFailed
     puts "Is a server up and running at #{request[:path]}?".red

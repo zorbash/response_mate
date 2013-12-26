@@ -1,7 +1,7 @@
 class ResponseMate::Manifest
   include ResponseMate::ManifestParser
 
-  attr_accessor :filename, :requests, :requests_text, :base_url, :oauth
+  attr_accessor :filename, :requests, :requests_text, :base_url, :oauth, :default_headers
 
   def initialize(filename)
     @filename = filename || ResponseMate.configuration.requests_manifest
@@ -26,6 +26,7 @@ class ResponseMate::Manifest
     @request_hashes = YAML.load(requests_text)
     @base_url = @request_hashes['base_url']
     @requests = @request_hashes['requests'].map { |rh| ResponseMate::Request.new(rh) }
+    @default_headers = @request_hashes['default_headers']
     add_oauth_to_requests
   end
 

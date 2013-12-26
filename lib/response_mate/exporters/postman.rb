@@ -5,7 +5,7 @@ module ResponseMate::Exporters
     attr_accessor :manifest, :out
 
     def initialize(manifest)
-      @manifest = HashWithIndifferentAccess.new manifest
+      @manifest = manifest
       @out = {}
     end
 
@@ -28,12 +28,12 @@ module ResponseMate::Exporters
     end
 
     def build_requests
-      manifest[:requests].each do |request|
-        req = parse_request(request[:request])
-        url = if req[:params].present?
-                "#{req[:path]}?#{req[:params].to_query}"
+      manifest.requests.each do |request|
+        req = ResponseMate::Manifest.parse_request(request.request)
+        url = if req['params'].present?
+                "#{req['path']}?#{req['params'].to_query}"
               else
-               req[:path]
+               req['path']
               end
 
         out_req = {
@@ -41,13 +41,13 @@ module ResponseMate::Exporters
           collectionId: out[:id],
           data: [],
           description: '',
-          method: req[:verb],
-          name: request[:key],
+          method: req['verb'],
+          name: request['key'],
           url: url,
           version: 2,
           responses: [],
           dataMode: 'params',
-          headers: request[:headers] || manifest[:default_headers]
+          headers: request['headers'] || manifest.default_headers
         }
 
         out[:order] << out_req[:id]
