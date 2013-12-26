@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Dimitris Zorbas"]
   spec.email         = ["zorbash@skroutz.gr"]
   spec.description   = <<-DESC
-    Cli tool to make inspecting and recording HTTP request fun again
+    Cli tool to make inspecting and recording HTTP requests fun again
   DESC
   spec.summary       = %q{}
   spec.homepage      = ""
