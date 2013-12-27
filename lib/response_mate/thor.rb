@@ -9,7 +9,6 @@ module ResponseMate
     method_option :requests_manifest, aliases: '-r'
     method_option :keys, aliases: '-k', type: :array
     def record
-      opts = options.dup.symbolize_keys
       ResponseMate::Commands::Record.new(args, options).run
 
     rescue ResponseMate::OutputDirError
@@ -41,7 +40,7 @@ module ResponseMate
 
     desc 'Lists available recordings or keys to record', 'Recording listing'
     method_option :requests_manifest, aliases: '-r'
-    def list
+    def list(type = 'requests')
       ResponseMate::Commands::List.new(args, options).run
 
     rescue ResponseMate::OutputDirError

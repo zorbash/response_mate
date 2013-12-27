@@ -1,6 +1,7 @@
 # coding: utf-8
 
 module ResponseMate
+  # Handles recording requests
   class Recorder
     include ResponseMate::ManifestParser
 
@@ -30,7 +31,7 @@ module ResponseMate
       meta = request.meta
       request = ResponseMate::Manifest.parse_request(request.request)
 
-      puts "[#{key}] #{request[:verb]}".cyan_on_black.bold <<  " #{request[:path]}"
+      puts "[#{key}] #{request[:verb]}".cyan_on_black.bold << " #{request[:path]}"
       puts "\tparams #{request[:params]}" if request[:params].present?
       ResponseMate::Tape.new.write(key, request, conn.fetch(request), meta)
     end

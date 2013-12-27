@@ -1,11 +1,13 @@
 class ResponseMate::Manifest
   include ResponseMate::ManifestParser
 
-  attr_accessor :filename, :requests, :requests_text, :base_url, :oauth, :default_headers
+  attr_accessor :filename, :requests, :requests_text, :base_url, :oauth,
+    :default_headers, :environment
 
-  def initialize(filename)
+  def initialize(filename, environment = nil)
     @filename = filename || ResponseMate.configuration.requests_manifest
     @oauth = ResponseMate::Oauth.new
+    @environment = environment
     parse
   end
 
@@ -17,8 +19,7 @@ class ResponseMate::Manifest
       exit 1
     end
 
-    environment = {} # Later to be replaced by a hash of the environment vars
-    @requests_text = Mustache.render(@requests_text, environment)
+    @requests_text = Mustache.render(@requests_text, environment.try(:env) || {})
   end
 
   def parse
