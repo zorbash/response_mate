@@ -27,6 +27,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "pry-nav"
   spec.add_development_dependency "rspec", "~> 2.14"
   spec.add_development_dependency 'fakefs'
+  spec.add_development_dependency 'rubocop'
 
   spec.add_dependency "thor", "~> 0.18.1"
   spec.add_dependency "awesome_print"
