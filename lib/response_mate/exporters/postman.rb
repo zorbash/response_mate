@@ -1,4 +1,7 @@
 module ResponseMate::Exporters
+  # Handles exporting to postman format
+  # Example output
+  # https://www.getpostman.com/collections/dbc0521911e45471ff4a
   class Postman
     include ResponseMate::ManifestParser
 
@@ -18,13 +21,13 @@ module ResponseMate::Exporters
     private
 
     def build_structure
-      out.merge!({
+      out.merge!(
         id: SecureRandom.uuid,
         name: 'latest_export',
         requests: [],
         order: [],
         timestamp: Time.now.to_i
-      })
+      )
     end
 
     def build_requests
@@ -33,7 +36,7 @@ module ResponseMate::Exporters
         url = if req['params'].present?
                 "#{req['path']}?#{req['params'].to_query}"
               else
-               req['path']
+                req['path']
               end
 
         out_req = {

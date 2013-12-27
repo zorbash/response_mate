@@ -11,9 +11,9 @@ module ResponseMate
       end
 
       def run
-        if type == "requests"
+        if type == 'requests'
           choices = options[:manifest].requests.map { |r| r.key.to_sym }
-        elsif type == "recordings"
+        elsif type == 'recordings'
           choices = Dir.glob('output/responses/*.yml').map do |f|
             File.basename(f).gsub(/\.yml/, '').to_sym
           end

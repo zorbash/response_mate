@@ -5,7 +5,7 @@ module ResponseMate
     attr_accessor :manifest
 
     def initialize
-      @manifest = YAML::load_file(ResponseMate.configuration.oauth_manifest)
+      @manifest = YAML.load_file(ResponseMate.configuration.oauth_manifest)
     rescue Errno::ENOENT
       @manifest = nil
     end

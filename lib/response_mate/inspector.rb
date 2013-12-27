@@ -45,10 +45,10 @@ class ResponseMate::Inspector
   end
 
   def print_pretty(response)
-    ap({
+    ap(
       status: response.status,
       headers: response.headers,
       body: response.body
-    })
+    )
   end
 end

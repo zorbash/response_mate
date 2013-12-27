@@ -1,4 +1,5 @@
 # coding: utf-8
+# The main module of the tool contains configuration code and some constats
 module ResponseMate
   class OutputDirError < StandardError; end
 
@@ -11,12 +12,13 @@ module ResponseMate
   end
 
   class Configuration
-    attr_accessor :output_dir, :requests_manifest, :oauth_manifest
+    attr_accessor :output_dir, :requests_manifest, :oauth_manifest, :environment
 
     def initialize
       @output_dir = './output/responses/'
       @requests_manifest = './requests.yml'
       @oauth_manifest = './oauth.yml'
+      @environment = './environment.yml'
     end
   end
 
