@@ -15,7 +15,7 @@ class ResponseMate::Manifest
     begin
       @requests_text = File.read filename
     rescue Errno::ENOENT
-      puts filename.red << " does not seem to exist"
+      puts filename.red << ' does not seem to exist'
       exit 1
     end
 
@@ -34,7 +34,7 @@ class ResponseMate::Manifest
   def add_oauth_to_requests
     @requests.each do |req|
       if req[:params].present?
-        req[:params].merge!({ 'oauth_token' => oauth.token })
+        req[:params].merge!('oauth_token' => oauth.token)
       else
         req[:params] = { 'oauth_token' => oauth.token }
       end
