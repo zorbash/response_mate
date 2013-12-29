@@ -12,7 +12,7 @@ module ResponseMate
       def run
         unless options[:format].present?
           @options[:format] = choose { |menu|
-            menu.prompt = "Please pick one of the available formats"
+            menu.prompt = 'Please pick one of the available formats'
             menu.choice(:postman)
           }.to_s
         end
