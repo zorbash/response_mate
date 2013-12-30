@@ -1,7 +1,7 @@
 # coding: utf-8
 
 module ResponseMate
-  class Thor < ::Thor
+  class CLI < ::Thor
     package_name 'response_mate'
 
     desc 'Perform requests and records their output', 'Records'
