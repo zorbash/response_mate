@@ -20,3 +20,4 @@
 - Export environment.yml to postman format
 - Accept extra params/headers from cli
 - Support request types: [:raw, urlencoded]
+- read manifest file from url
