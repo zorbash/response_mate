@@ -27,15 +27,13 @@ module ResponseMate
     end
 
     desc 'Initializes the required directory structure', 'Initializes'
-    def setup(output_dir = ResponseMate.configuration.output_dir)
-      FileUtils.mkdir_p(output_dir)
-      puts "[Setup] Initialized empty directory #{output_dir}"
+    def setup(output_dir = '')
+      ResponseMate::Commands::Setup.new(args, options).run
     end
 
     desc 'Deletes existing response files', 'Cleans up recordings'
-    def clear
-      FileUtils.rm_rf(ResponseMate.configuration.output_dir + '.')
-      puts "All clean and shiny!"
+    def clear(output_dir = '')
+      ResponseMate::Commands::Clear.new(args, options).run
     end
 
     desc 'Lists available recordings or keys to record', 'Recording listing'
