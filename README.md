@@ -100,3 +100,7 @@ Exports a requests manifest file to a different format
 Released under the MIT License. See the
 [LICENSE](https://github.com/Zorbash/response_mate/blob/master/LICENSE) file
 for further details.
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/Zorbash/response_mate/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
