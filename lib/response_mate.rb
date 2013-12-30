@@ -12,7 +12,7 @@ require 'ostruct'
 
 require 'response_mate/version'
 
-require 'response_mate/commands'
+require 'response_mate/commands/base'
 
 # Load all commands
 Dir.glob(File.join(File.expand_path('..', __FILE__),
