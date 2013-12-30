@@ -2,4 +2,4 @@
 
 require 'response_mate'
 
-ResponseMate::Thor.start(ARGV)
+ResponseMate::CLI.start(ARGV)

@@ -32,7 +32,7 @@ require 'response_mate/oauth'
 require 'response_mate/tape'
 require 'response_mate/recorder'
 require 'response_mate/inspector'
-require 'response_mate/thor'
+require 'response_mate/cli'
 require 'response_mate/exporter'
 
 # Load all exporters
