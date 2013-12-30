@@ -1,5 +1,7 @@
-### ResponseMate
+## ResponseMate
 [![Code Climate](https://codeclimate.com/github/Zorbash/response_mate.png)](https://codeclimate.com/github/Zorbash/response_mate)
+[![Dependencies tatus](https://gemnasium.com/Zorbash/response_mate.png)](https://gemnasium.com/Zorbash/response_mate)
+
 
 ResponseMate is a command line tool that aims to make inspecting and
 recording HTTP requests/responses. It is designed with APIs in mind.
