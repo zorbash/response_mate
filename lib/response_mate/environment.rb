@@ -1,3 +1,5 @@
+# coding: utf-8
+
 class ResponseMate::Environment
   attr_accessor :filename, :env, :environment_text
 

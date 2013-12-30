@@ -1,3 +1,5 @@
+# coding: utf-8
+
 module ResponseMate::Exporters
   # Handles exporting to postman format
   # Example output
