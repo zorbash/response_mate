@@ -21,3 +21,4 @@
 - Accept extra params/headers from cli
 - Support request types: [:raw, urlencoded]
 - read manifest file from url
+- Allow multiline input for inspect
