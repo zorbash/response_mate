@@ -11,7 +11,7 @@ It is a cli supplement/replacement of [postman](https://github.com/a85/POSTMan-C
 More info [Design Doc of the now deprecated rake task](https://github.com/skroutz/apiv3/wiki/ResponseMate-Design-Document)
 
 
-### Usage
+## Usage
 
 ## Setup
 A specific directory structure must be present to store the recordings.
