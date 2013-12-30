@@ -1,4 +1,8 @@
+# coding: utf-8
+
+# This class provides a layer above the HTTP client
 class ResponseMate::Connection
+
   delegate :params, to: :client
   delegate(*(ResponseMate::ManifestParser::HTTP_VERBS), to: :client)
 
@@ -17,7 +21,7 @@ class ResponseMate::Connection
 
   def fetch(request)
     client.params = request[:params] if !request[:params].nil?
-    unless base_url || request[:path] =~ /^http:\/\//
+    unless base_url || request[:path] =~ %r{http://}
       request[:path] = 'http://' + request[:path]
     end
     client.send request[:verb].downcase.to_sym, "#{base_url}#{request[:path]}"

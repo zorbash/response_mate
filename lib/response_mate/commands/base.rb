@@ -1,3 +1,5 @@
+# coding: utf-8
+
 module ResponseMate
   module Commands
     class Base

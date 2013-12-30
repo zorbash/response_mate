@@ -1,3 +1,5 @@
+# coding: utf-8
+
 class ResponseMate::Inspector
   attr_accessor :conn, :base_url, :oauth, :manifest, :print_type
 

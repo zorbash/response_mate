@@ -1,6 +1,7 @@
+# coding: utf-8
 require 'spec_helper'
 
-# TODO: This spec need some love
+# TODO: This spec needs some love
 describe ResponseMate::Recorder, fakefs: true do
   pending '.initialize' do
     let(:subject) { ResponseMate::Recorder.new }

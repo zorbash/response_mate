@@ -1,3 +1,5 @@
+# coding: utf-8
+
 module ResponseMate::Http
   STATUS_CODES = {
     100  => 'Continue',

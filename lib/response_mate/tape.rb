@@ -1,3 +1,5 @@
+# coding: utf-8
+
 class ResponseMate::Tape
   def write(key, request, response, meta = {})
     File.open("#{ResponseMate.configuration.output_dir}#{key}.yml", 'w') do |f|
