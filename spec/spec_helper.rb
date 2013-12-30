@@ -2,6 +2,9 @@ $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 require 'response_mate'
 require 'fakefs/safe'
 require 'fakefs/spec_helpers'
+require 'coveralls'
+
+Coveralls.wear!
 
 RSpec.configure do |c|
   c.treat_symbols_as_metadata_keys_with_true_values = true
