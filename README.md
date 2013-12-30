@@ -98,3 +98,8 @@ Exports a requests manifest file to a different format
 
 - [zorbash](https://github.com/zorbash)
 - [jimmikarily](https://github.com/jimmykarily)
+
+# Licence
+Released under the MIT License. See the
+[LICENSE](https://github.com/Zorbash/response_mate/blob/master/LICENSE) file
+for further details.
