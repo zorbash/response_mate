@@ -8,4 +8,4 @@ matrix:
   allow_failures:
     - rvm: ruby-head
   fast_finish: true
-script: bundle exec rspec spec/
+script: bundle exec rake test
