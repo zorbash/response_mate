@@ -12,13 +12,6 @@ module ResponseMate
       end
 
       def run
-        unless options[:format].present?
-          @options[:format] = choose { |menu|
-            menu.prompt = 'Please pick one of the available formats'
-            menu.choice(:postman)
-          }.to_s
-        end
-
         output = ResponseMate::Exporter.new(options).export
         if options[:pretty]
           puts JSON.pretty_generate(output)
