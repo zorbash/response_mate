@@ -4,7 +4,7 @@ class ResponseMate::Manifest
   include ResponseMate::ManifestParser
 
   attr_accessor :filename, :requests, :requests_text, :base_url, :oauth,
-    :default_headers, :environment
+    :default_headers, :environment, :name
 
   def initialize(filename, environment = nil)
     @filename = filename || ResponseMate.configuration.requests_manifest
@@ -30,17 +30,7 @@ class ResponseMate::Manifest
     @base_url = @request_hashes['base_url']
     @requests = @request_hashes['requests'].map { |rh| ResponseMate::Request.new(rh) }
     @default_headers = @request_hashes['default_headers']
-    add_oauth_to_requests
-  end
-
-  def add_oauth_to_requests
-    @requests.each do |req|
-      if req[:params].present?
-        req[:params].merge!('oauth_token' => oauth.token)
-      else
-        req[:params] = { 'oauth_token' => oauth.token }
-      end
-    end
+    @name = @request_hashes['name'] || filename
   end
 
   class << self

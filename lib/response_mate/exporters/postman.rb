@@ -25,7 +25,7 @@ module ResponseMate::Exporters
     def build_structure
       out.merge!(
         id: SecureRandom.uuid,
-        name: 'latest_export',
+        name: manifest.name,
         requests: [],
         order: [],
         timestamp: Time.now.to_i
@@ -35,10 +35,10 @@ module ResponseMate::Exporters
     def build_requests
       manifest.requests.each do |request|
         req = ResponseMate::Manifest.parse_request(request.request)
-        url = if req['params'].present?
-                "#{req['path']}?#{req['params'].to_query}"
+        url = if req[:params].present?
+                "#{req[:path]}?#{req[:params].to_query}"
               else
-                req['path']
+                req[:path]
               end
 
         out_req = {
@@ -46,13 +46,13 @@ module ResponseMate::Exporters
           collectionId: out[:id],
           data: [],
           description: '',
-          method: req['verb'],
-          name: request['key'],
+          method: req[:verb],
+          name: request.key,
           url: url,
           version: 2,
           responses: [],
           dataMode: 'params',
-          headers: request['headers'] || manifest.default_headers
+          headers: request.headers || manifest.default_headers
         }
 
         out[:order] << out_req[:id]
