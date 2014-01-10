@@ -54,7 +54,7 @@ module ResponseMate
     end
     map ['--version'] => :version
 
-    desc 'exportExports to one of the available formats',
+    desc 'export',
       'Export to one of the available formats'
     method_option :requests_manifest, aliases: '-r'
     method_option :format, aliases: '-f'
