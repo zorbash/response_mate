@@ -13,10 +13,13 @@ module ResponseMate
 
       def run
         output = ResponseMate::Exporter.new(options).export
-        if options[:pretty]
-          puts JSON.pretty_generate(output)
+        if options[:upload]
+          url = Faraday.post 'http://getpostman.com/collections' do |req|
+            req.body = output.to_json
+          end
+          puts JSON.parse(url.body)['link']
         else
-          puts output.to_json
+          puts JSON.pretty_generate(output)
         end
       end
     end
