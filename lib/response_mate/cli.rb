@@ -4,7 +4,7 @@ module ResponseMate
   class CLI < ::Thor
     package_name 'response_mate'
 
-    desc 'Perform requests and records their output', 'Records'
+    desc 'record', 'Perform requests and record their output'
     method_option :base_url, aliases: '-b'
     method_option :requests_manifest, aliases: '-r'
     method_option :keys, aliases: '-k', type: :array
@@ -17,7 +17,7 @@ module ResponseMate
       invoke :setup, []
     end
 
-    desc 'Perform requests and prints their output', 'Records'
+    desc 'inspect [key1,key2]', 'Perform requests and print their output'
     method_option :base_url, aliases: '-b'
     method_option :requests_manifest, aliases: '-r'
     method_option :interactive, type: :boolean, aliases: "-i"
@@ -26,17 +26,18 @@ module ResponseMate
       ResponseMate::Commands::Inspect.new(args, options).run
     end
 
-    desc 'Initializes the required directory structure', 'Initializes'
+    desc 'setup', 'Initialize the required directory structure'
     def setup(output_dir = '')
       ResponseMate::Commands::Setup.new(args, options).run
     end
 
-    desc 'Deletes existing response files', 'Cleans up recordings'
+    desc 'clear [output_dir]', 'Delete existing response files'
     def clear(output_dir = '')
       ResponseMate::Commands::Clear.new(args, options).run
     end
 
-    desc 'Lists available recordings or keys to record', 'Recording listing'
+    desc 'list [request_type] (requests or recordings)',
+      'List available recordings or keys to record'
     method_option :requests_manifest, aliases: '-r'
     def list(type = 'requests')
       ResponseMate::Commands::List.new(args, options).run
@@ -47,7 +48,14 @@ module ResponseMate
       invoke :setup, []
     end
 
-    desc 'Exports to one of the available formats', 'Exports'
+    desc 'version', 'Print version information'
+    def version
+      puts "ResponseMate version #{ResponseMate::VERSION}"
+    end
+    map ['--version'] => :version
+
+    desc 'exportExports to one of the available formats',
+      'Export to one of the available formats'
     method_option :requests_manifest, aliases: '-r'
     method_option :format, aliases: '-f'
     method_option :pretty, aliases: '-p', default: false
