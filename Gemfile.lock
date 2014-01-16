@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    response_mate (0.1.1)
+    response_mate (0.1.7)
       activesupport
       addressable
       awesome_print
@@ -36,7 +36,7 @@ GEM
     diff-lcs (1.2.5)
     docile (1.1.1)
     fakefs (0.4.3)
-    faraday (0.8.8)
+    faraday (0.8.9)
       multipart-post (~> 1.2.0)
     faraday_middleware (0.9.0)
       faraday (>= 0.7.4, < 0.9)
