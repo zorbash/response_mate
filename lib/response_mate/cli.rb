@@ -57,7 +57,7 @@ module ResponseMate
     desc 'export',
       'Export to one of the available formats'
     method_option :requests_manifest, aliases: '-r'
-    method_option :format, required: true, aliases: '-f'
+    method_option :format, required: true, aliases: '-f', default: 'postman'
     method_option :pretty, aliases: '-p', default: false
     method_option :upload, type: :boolean
     def export
