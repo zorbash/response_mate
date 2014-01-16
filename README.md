@@ -15,6 +15,9 @@ It is a cli supplement/replacement of [postman](https://github.com/a85/POSTMan-C
 
 ## Usage
 
+For a list of available commands run `response_mate help`
+For help on a command run `response_mate help some_command`
+
 ## Setup
 A specific directory structure must be present to store the recordings.
 To scaffold it do:
@@ -55,21 +58,41 @@ Record all the keys of the requests manifest file being `requests.yml`
 
 ### Specific key(s)
 
-`response_mate -k key1 key2`
+`response_mate record -k key1 key2`
 
 ### Specify a different request manifest
 
-`response_mate -r foo_api.yml`
+`response_mate record -r foo_api.yml`
 
 ### Specify a different base url for the requests
 
-`response_mate -b http://api.foo.com`
+`response_mate record -b http://api.foo.com`
 
 ## Clear
 
 Remove any existing recordings
 
 `response_mate clear`
+
+## Inspect
+
+Performs the request and displays the output without recording
+
+`response_mate inspect some_key`
+
+### Interactive mode
+
+`response_mate inspect -i`
+
+Starts a `response_mate>` interactive shell that allows you to issue
+requests and inspect their output.
+
+Examples:
+
+`>response_mate GET google.com`
+
+Also you can type `history` in the shell to get the history of requests
+and replay any of them.
 
 ## List
 
@@ -82,7 +105,7 @@ Lists existing recordings
 Exports a requests manifest file to a different format
 (currently only postman is supported)
 
-`response_mate export -f postman`
+`response_mate export`
 
 ### Export in pretty json
 
@@ -92,6 +115,13 @@ Exports a requests manifest file to a different format
 
 `response_mate export -f postman -r foo_api.yml`
 
+### Export the environment.yml
+
+`response_mate export --resource=environment`
+
+### Upload the exported and get a link
+
+`response_mate export --resource=environment --upload`
 
 # List of contributors
 
