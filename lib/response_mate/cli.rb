@@ -55,11 +55,12 @@ module ResponseMate
     map ['--version'] => :version
 
     desc 'export',
-      'Export to one of the available formats'
+      'Export manifest or environment to one of the available formats'
     method_option :requests_manifest, aliases: '-r'
     method_option :format, required: true, aliases: '-f', default: 'postman'
     method_option :pretty, aliases: '-p', default: false
-    method_option :upload, type: :boolean
+    method_option :resource, required: true, aliases: '-res', default: 'manifest'
+    method_option :upload, type: :boolean, aliases: '-u'
     def export
       ResponseMate::Commands::Export.new(args, options).run
     end

@@ -37,7 +37,7 @@ require 'response_mate/exporter'
 
 # Load all exporters
 require 'response_mate/exporters/postman'
-Dir.glob(File.join(File.expand_path('..', __FILE__),
-  'response_mate/exporters/*')).each(&method(:require))
+require 'response_mate/exporters/postman/collection'
+require 'response_mate/exporters/postman/environment'
 
 ResponseMate.setup

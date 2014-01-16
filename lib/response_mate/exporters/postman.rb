@@ -7,56 +7,23 @@ module ResponseMate::Exporters
   class Postman
     include ResponseMate::ManifestParser
 
-    attr_accessor :manifest, :out
+    attr_accessor :manifest, :environment, :resource, :out
 
-    def initialize(manifest)
-      @manifest = manifest
+    def initialize(manifest, environment, resource)
+      @manifest    = manifest
+      @environment = environment
+      @resource    = resource
       @out = {}
     end
 
     def export
-      build_structure
-      build_requests
-      out
-    end
-
-    private
-
-    def build_structure
-      out.merge!(
-        id: SecureRandom.uuid,
-        name: manifest.name,
-        requests: [],
-        order: [],
-        timestamp: Time.now.to_i
-      )
-    end
-
-    def build_requests
-      manifest.requests.each do |request|
-        req = ResponseMate::Manifest.parse_request(request.request)
-        url = if req[:params].present?
-                "#{req[:path]}?#{req[:params].to_query}"
-              else
-                req[:path]
-              end
-
-        out_req = {
-          id: SecureRandom.uuid,
-          collectionId: out[:id],
-          data: [],
-          description: '',
-          method: req[:verb],
-          name: request.key,
-          url: url,
-          version: 2,
-          responses: [],
-          dataMode: 'params',
-          headers: request.headers || manifest.default_headers
-        }
-
-        out[:order] << out_req[:id]
-        out[:requests] << out_req
+      case resource
+      when 'manifest'
+        ResponseMate::Exporters::Postman::Collection.new(manifest).export
+      when 'environment'
+        ResponseMate::Exporters::Postman::Environment.new(environment).export
+      else
+        fail 'Unsupported resource'
       end
     end
   end
