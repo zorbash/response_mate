@@ -48,7 +48,7 @@ class ResponseMate::Exporters::Postman
           description: '',
           method: req[:verb],
           name: request.key,
-          url: manifest.base_url ? "#{manifest.base_url}#{url}" : url,
+          url: url,
           version: 2,
           responses: [],
           dataMode: 'params',
