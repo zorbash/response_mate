@@ -21,7 +21,9 @@ class ResponseMate::Manifest
       exit 1
     end
 
-    @requests_text = Mustache.render(@requests_text, environment.try(:env) || {})
+    if environment.present?
+      @requests_text = Mustache.render(@requests_text, environment.try(:env) || {})
+    end
   end
 
   def parse

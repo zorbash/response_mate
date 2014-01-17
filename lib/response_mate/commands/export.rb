@@ -9,8 +9,7 @@ module ResponseMate
         @type = args.first || 'requests'
 
         @options[:environment] = ResponseMate::Environment.new(options[:environment])
-        @options[:manifest] = ResponseMate::Manifest.new(options[:requests_manifest],
-          @options[:environment])
+        @options[:manifest] = ResponseMate::Manifest.new(options[:requests_manifest])
       end
 
       def run
