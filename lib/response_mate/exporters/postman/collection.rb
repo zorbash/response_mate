@@ -52,7 +52,8 @@ class ResponseMate::Exporters::Postman
           version: 2,
           responses: [],
           dataMode: 'params',
-          headers: request.headers || manifest.default_headers
+          headers: (request.headers || manifest.default_headers)
+            .map{|k,v| "#{k}: #{v}" }.join("\n")
         }
 
         out[:order] << out_req[:id]
