@@ -61,8 +61,8 @@ module ResponseMate
 
     private
 
-    def rescue_absent_output_dir
-      yield
+    def rescue_absent_output_dir(&block)
+      block.call
     rescue ResponseMate::OutputDirError
       puts 'Output directory does not exist, invoking setup..'
       puts 'Please retry after setup'
