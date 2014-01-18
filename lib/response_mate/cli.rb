@@ -10,11 +10,6 @@ module ResponseMate
     method_option :keys, aliases: '-k', type: :array
     def record
       ResponseMate::Commands::Record.new(args, options).run
-
-    rescue ResponseMate::OutputDirError
-      puts 'Output directory does not exist, invoking setup..'
-      puts 'Please retry after setup'
-      invoke :setup, []
     end
 
     desc 'inspect [key1,key2]', 'Perform requests and print their output'
@@ -41,11 +36,6 @@ module ResponseMate
     method_option :requests_manifest, aliases: '-r'
     def list(type = 'requests')
       ResponseMate::Commands::List.new(args, options).run
-
-    rescue ResponseMate::OutputDirError
-      puts 'Output directory does not exist, invoking setup..'
-      puts 'Please retry after setup'
-      invoke :setup, []
     end
 
     desc 'version', 'Print version information'
