@@ -3,12 +3,11 @@
 class ResponseMate::Manifest
   include ResponseMate::ManifestParser
 
-  attr_accessor :filename, :requests, :requests_text, :base_url, :oauth,
-    :default_headers, :environment, :name
+  attr_accessor :filename, :requests, :requests_text, :base_url, :default_headers,
+    :environment, :name
 
   def initialize(filename, environment = nil)
     @filename = filename || ResponseMate.configuration.requests_manifest
-    @oauth = ResponseMate::Oauth.new
     @environment = environment
     parse
   end

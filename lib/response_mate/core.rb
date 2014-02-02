@@ -12,12 +12,11 @@ module ResponseMate
   end
 
   class Configuration
-    attr_accessor :output_dir, :requests_manifest, :oauth_manifest, :environment
+    attr_accessor :output_dir, :requests_manifest, :environment
 
     def initialize
       @output_dir = './output/responses/'
       @requests_manifest = './requests.yml'
-      @oauth_manifest = './oauth.yml'
       @environment = './environment.yml'
     end
   end

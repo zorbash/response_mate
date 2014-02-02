@@ -1,11 +1,10 @@
 # coding: utf-8
 
 class ResponseMate::Inspector
-  attr_accessor :conn, :base_url, :oauth, :manifest, :print_type
+  attr_accessor :conn, :base_url, :manifest, :print_type
 
   def initialize(args = {})
     @manifest = args[:manifest]
-    @oauth = ResponseMate::Oauth.new
     @base_url = args[:base_url] || manifest.base_url
     @print_type = args[:print] || 'raw'
 

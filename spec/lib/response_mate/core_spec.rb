@@ -13,10 +13,6 @@ describe ResponseMate::Configuration do
     it 'assigns @requests_manifest' do
       expect(subject.requests_manifest).to be_present
     end
-
-    it 'assigns @oauth_manifest' do
-      expect(subject.oauth_manifest).to be_present
-    end
   end
 end
 
@@ -45,7 +41,6 @@ describe ResponseMate do
         ResponseMate.setup do |config|
           config.output_dir        = 'foo'
           config.requests_manifest = 'bar'
-          config.oauth_manifest    = 'koko'
         end
       end
 
@@ -53,14 +48,12 @@ describe ResponseMate do
         ResponseMate.setup do |config|
           config.output_dir        = './output/responses/'
           config.requests_manifest = './requests.yml.erb'
-          config.oauth_manifest    = './oauth.yml'
         end
       end
 
       it 'properly assigns ivars' do
         expect(ResponseMate.configuration.output_dir).to eq('foo')
         expect(ResponseMate.configuration.requests_manifest).to eq('bar')
-        expect(ResponseMate.configuration.oauth_manifest).to eq('koko')
       end
     end
   end
