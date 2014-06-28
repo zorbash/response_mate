@@ -2,7 +2,10 @@
 
 class ResponseMate::Tape
   def write(key, request, response, meta = {})
-    File.open("#{ResponseMate.configuration.output_dir}#{key}.yml", 'w') do |f|
+    output_dir = ResponseMate.configuration.output_dir
+    output_path = File.join output_dir, "#{key}.yml"
+
+    File.open(output_path, 'w') do |f|
       file_content = {
         request: request.select { |_, v| !v.nil? },
         status: response.status,

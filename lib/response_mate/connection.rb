@@ -15,16 +15,23 @@ class ResponseMate::Connection
       c.adapter Faraday.default_adapter
     end
 
-    client.headers.merge(ResponseMate::DEFAULT_HEADERS)
-    client.url_prefix = base_url if base_url
+    #client.headers.merge(ResponseMate::DEFAULT_HEADERS)
+    #client.url_prefix = base_url if base_url
   end
 
   def fetch(request)
     client.params = request[:params] if !request[:params].nil?
+
+    if request[:domain]
+      base_url = request[:domain]
+    end
+
     unless base_url || request[:path] =~ %r{http://}
       request[:path] = 'http://' + request[:path]
     end
-    client.send request[:verb].downcase.to_sym, "#{base_url}#{request[:path]}"
+
+    client.send :get, 'http://www.example.com'
+    #client.send request[:verb].downcase.to_sym, "#{base_url}#{request[:path]}"
   rescue Faraday::Error::ConnectionFailed
     puts "Is a server up and running at #{request[:path]}?".red
     exit 1

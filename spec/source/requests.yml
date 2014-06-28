@@ -1,0 +1,8 @@
+requests:
+  -
+    key: user_issues
+    request:
+      domain: 'www.example.com'
+      path: '/help.html'
+      params:
+        lang: 'en'

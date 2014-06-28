@@ -3,7 +3,7 @@
 module ResponseMate
   module Commands
     # Handles the invocation of the record command
-    class ResponseMate::Commands::Record < Base
+    class Record < Base
       def initialize(args, options)
         super(args, options)
         @options = options.dup
