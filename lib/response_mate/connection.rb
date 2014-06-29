@@ -2,47 +2,52 @@
 
 # This class provides a layer above the HTTP client
 class ResponseMate::Connection
-
   delegate :params, to: :client
   delegate(*(ResponseMate::ManifestParser::HTTP_VERBS), to: :client)
 
-  attr_accessor :client, :base_url
+  attr_accessor :client
 
-  def initialize(base_url = nil)
-    @base_url = base_url
+  def initialize
     @client = Faraday.new do |c|
       c.use FaradayMiddleware::FollowRedirects, limit: 5
       c.adapter Faraday.default_adapter
     end
-
-    #client.headers.merge(ResponseMate::DEFAULT_HEADERS)
-    #client.url_prefix = base_url if base_url
   end
 
   def fetch(request)
-    client.params = request[:params] if !request[:params].nil?
+    main_uri = if request[:url]
+                 request[:url]
+               elsif request[:host]
+                 request[:host]
+               end
 
-    if request[:domain]
-      base_url = request[:domain]
-    end
+    adjusted_uri = adjust_scheme(main_uri, request[:scheme])
+    uri = URI.parse(adjusted_uri)
+    uri.path  = adjust_path(request[:path]) if request[:path]
+    uri.query = request[:params].to_query if request[:params]
+    verb = request[:verb] || 'GET'
 
-    unless base_url || request[:path] =~ %r{http://}
-      request[:path] = 'http://' + request[:path]
-    end
-
-    client.send :get, 'http://www.example.com'
-    #client.send request[:verb].downcase.to_sym, "#{base_url}#{request[:path]}"
+    client.send verb.downcase.to_sym, uri.to_s
   rescue Faraday::Error::ConnectionFailed
     puts "Is a server up and running at #{request[:path]}?".red
     exit 1
   end
 
-  def set_headers_from_manifest(manifest)
-    if manifest.default_headers
-      manifest.default_headers.each_pair do |k, v|
+  def adjust_scheme(uri, scheme)
+    scheme = %w[http https].include?(scheme) ? scheme : 'http'
 
-        client.headers[ResponseMate::Helpers.headerize(k)] = v
-      end
+    if uri !~ /\Ahttp(s)?/
+      "#{scheme}://#{uri}"
+    else
+      uri
+    end
+  end
+
+  def adjust_path(path)
+    if path !~ %r{\A/}
+      "/#{path}"
+    else
+      path
     end
   end
 end

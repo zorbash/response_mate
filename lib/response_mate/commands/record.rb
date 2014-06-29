@@ -11,9 +11,7 @@ module ResponseMate
 
       def run
         environment = ResponseMate::Environment.new(options[:environment])
-
-        manifest = ResponseMate::Manifest.
-          new(options[:requests_manifest], environment)
+        manifest = ResponseMate::Manifest.new(options[:requests_manifest], environment)
 
         options[:manifest] = manifest
         recorder = ResponseMate::Recorder.new(options)

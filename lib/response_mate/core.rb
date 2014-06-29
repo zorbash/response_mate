@@ -1,7 +1,8 @@
 # coding: utf-8
-# The main module of the tool contains configuration code and some constats
+# The main module of the tool contains configuration code and some constants
 module ResponseMate
   class OutputDirError < StandardError; end
+  class KeysNotFound < StandardError; end
 
   DEFAULT_HEADERS = {
     'User-Agent' => 'Response-Mate'

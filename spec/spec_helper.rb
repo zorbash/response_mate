@@ -2,20 +2,22 @@
 
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 require 'response_mate'
-require 'fakefs/safe'
-require 'fakefs/spec_helpers'
+#require 'fakefs/safe'
+#require 'fakefs/spec_helpers'
 require 'fakeweb'
-require 'coveralls'
+#require 'coveralls'
 
-Coveralls.wear!
+#Coveralls.wear!
+
+Dir["./spec/support/**/*.rb"].sort.each { |f| require f}
 
 RSpec.configure do |c|
   c.treat_symbols_as_metadata_keys_with_true_values = true
-  c.filter_run :focus
+  #c.filter_run :focus
 
-  c.include FakeFS::SpecHelpers, fakefs: true
-  c.before(:all) { silence_output }
-  c.after(:all) { enable_output }
+  #c.include FakeFS::SpecHelpers, fakefs: true
+  #c.before(:all) { silence_output }
+  #c.after(:all) { enable_output }
 end
 
 # Redirects stderr and stdout to /dev/null.

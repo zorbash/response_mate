@@ -5,21 +5,30 @@ module ResponseMate
   class Recorder
     include ResponseMate::ManifestParser
 
-    attr_accessor :base_url, :conn, :manifest, :oauth, :keys
+    attr_accessor :conn, :manifest, :keys
 
     def initialize(args = {})
       @manifest = args[:manifest]
-
       @keys = args[:keys]
-      @base_url = args[:base_url] || manifest.base_url
-
-      @conn = ResponseMate::Connection.new(base_url)
-      @conn.set_headers_from_manifest(manifest)
+      @conn = ResponseMate::Connection.new
     end
 
     def record
       requests = manifest.requests
-      requests.select! { |r| keys.include? r.key } if keys.present?
+
+      if keys.present?
+        existing_keys = requests.map(&:key)
+        missing_keys = keys - existing_keys
+
+        if missing_keys.present?
+          raise ResponseMate::KeysNotFound.new(missing_keys.join(','))
+        end
+
+        requests.select! do |r|
+          keys.include? r.key
+        end
+      end
+
       requests.each do |request|
         process request.key, request
       end
@@ -29,10 +38,8 @@ module ResponseMate
 
     def process(key, request)
       meta = request.meta
-      request = ResponseMate::Manifest.parse_request(request.request)
+      puts request.to_cli_format
 
-      puts "[#{key}] #{request[:verb]}".cyan_on_black.bold << " #{request[:path]}"
-      puts "\tparams #{request[:params]}" if request[:params].present?
       ResponseMate::Tape.new.write(key, request, conn.fetch(request), meta)
     end
   end

@@ -1,19 +1,12 @@
 # coding: utf-8
 
 class ResponseMate::Inspector
-  attr_accessor :conn, :base_url, :manifest, :print_type
+  attr_accessor :conn, :manifest
 
   def initialize(args = {})
     @manifest = args[:manifest]
-    @base_url = args[:base_url] || manifest.base_url
-    @print_type = args[:print] || 'raw'
 
-    if !args[:interactive]
-      @conn = ResponseMate::Connection.new(base_url)
-      @conn.set_headers_from_manifest(manifest)
-    else
-      @conn = ResponseMate::Connection.new
-    end
+    @conn = ResponseMate::Connection.new
   end
 
   def inspect_key(key, options = {})
@@ -23,7 +16,7 @@ class ResponseMate::Inspector
     puts "[#{key}] #{request[:verb]}".cyan_on_black.bold <<  " #{request[:path]}"
     puts "\tparams #{request[:params]}" if request[:params].present?
 
-    print(conn.fetch(request))
+    print_pretty(conn.fetch(request))
   end
 
   def inspect_interactive(input)
@@ -31,25 +24,9 @@ class ResponseMate::Inspector
     print(conn.fetch(request))
   end
 
-  def print(response)
-    __send__ "print_#{print_type}", response
-  end
-
-  def print_raw(response)
-    puts "\n"
-    status = "#{response.status} #{ResponseMate::Http::STATUS_CODES[response.status]}"
-    puts "HTTP/1.1 #{status}"
-    response.headers.each_pair do |k, v|
-      puts "#{ResponseMate::Helpers.headerize(k)}: #{v}"
-    end
-    puts response.body
-  end
-
   def print_pretty(response)
-    ap(
-      status: response.status,
-      headers: response.headers,
-      body: response.body
-    )
+    ap(status: response.status,
+       headers: response.headers,
+       body: response.body)
   end
 end

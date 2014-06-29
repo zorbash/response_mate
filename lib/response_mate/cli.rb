@@ -5,18 +5,17 @@ module ResponseMate
     package_name 'response_mate'
 
     desc 'record', 'Perform requests and record their output'
-    method_option :base_url, aliases: '-b'
     method_option :requests_manifest, aliases: '-r'
     method_option :keys, aliases: '-k', type: :array
     def record
       ResponseMate::Commands::Record.new(args, options).run
+    rescue ResponseMate::KeysNotFound => e
+      puts "The requested keys: #{e.message} could not be found"
     end
 
     desc 'inspect [key1,key2]', 'Perform requests and print their output'
-    method_option :base_url, aliases: '-b'
     method_option :requests_manifest, aliases: '-r'
     method_option :interactive, type: :boolean, aliases: "-i"
-    method_option :print, type: :string, aliases: '-p', default: 'raw'
     def inspect(*keys)
       ResponseMate::Commands::Inspect.new(args, options).run
     end

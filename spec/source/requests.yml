@@ -1,8 +1,22 @@
+default_headers: &default_headers
+  accept: 'application/vnd.someapi+json; version=3'
+  authorization: 'Bearer {{oauth_token}}'
+
 requests:
   -
     key: user_issues
     request:
-      domain: 'www.example.com'
-      path: '/help.html'
+      host: 'www.someapi.com'
+      path: '/user/42/issues'
+      headers:
+        <<: *default_headers
+
+  - key: user_friends
+    request:
+      host: 'www.someapi.com'
+      path: '/user/42/friends'
+      headers:
+        <<: *default_headers
       params:
-        lang: 'en'
+        trusty: 'yes'
+        since: 'childhood'

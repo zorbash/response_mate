@@ -8,14 +8,16 @@ class ResponseMate::Tape
     File.open(output_path, 'w') do |f|
       file_content = {
         request: request.select { |_, v| !v.nil? },
-        status: response.status,
-        headers: response.headers.to_hash,
-        body: response.body
+        response: {
+          status: response.status,
+          headers: response.headers,
+          body: response.body
+        }
       }
 
       file_content.merge!(meta: meta) if meta.present?
 
-      f << file_content.to_yaml
+      f << file_content.to_yaml(canonical: true)
     end
   rescue Errno::ENOENT
     raise ResponseMate::OutputDirError

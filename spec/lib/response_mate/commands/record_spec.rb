@@ -3,91 +3,91 @@
 require 'spec_helper'
 
 describe ResponseMate::Commands::Record do
+  include_context 'stubbed_requests'
+
   describe '#run' do
-    let(:fake_response) {
-      {
-        body: 'hello, this is dog',
-        status: 200,
-        headers: { 'X-Such-Header' => 'very sent' }
-      }
-    }
-
-    let(:fake_request) {
-      {
-        headers: {
-          'Accept' => '*/*',
-          'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-          'User-Agent'=>'Faraday v0.8.9'
-        }
-      }
-    }
-
-    before do
-      ResponseMate.stub_chain(:configuration, :requests_manifest).
-        and_return File.expand_path('spec/source/requests.yml')
-      ResponseMate.stub_chain(:configuration, :environment).
-        and_return File.expand_path('spec/source/requests.yml')
-      ResponseMate.stub_chain(:configuration, :output_dir).
-        and_return File.expand_path('spec/source/responses/')
-      #FakeWeb.register_uri(:get, 'http://www.example.com/help.html?lang=en',
-                           #body: 'hello',
-                           #status: 209)
-      FakeWeb.register_uri(:get, 'http://www.example.com',
-                           body: 'hello',
-                           status: 200)
-      require 'pry'; binding.pry
-
-      #stub_request(:get, 'http://www.example.com/help.html?lang=en').
-        #with(fake_request).
-        #to_return(:status => 200, :body => "", :headers => {})
-        #to_return(fake_response)
-    end
-
-    context 'when the requested key exists' do
-      subject do
+    context 'with keys option unspecified' do
+      before do
         ResponseMate::Commands::Record.new([], {}).run
       end
 
-      #before { subject }
-
-      it 'creates an output response file', :focus do
-        subject
-      end
-
-      describe 'output response file' do
-        it 'is valid YAML' do
-          pending
-        end
-
-        it 'contains the original request verb' do
-          pending
-        end
-
-        it 'contains the original request path' do
-          pending
-        end
-
-        it 'contains the original request params' do
-          pending
-        end
-
-        it 'contains the response status' do
-          pending
-        end
-
-        it 'includes the response headers' do
-          pending
-        end
-
-        it 'includes the response body' do
-          pending
+      describe 'output files' do
+        it 'creates on for each request' do
+          expect(output_files.call).to have_exactly(2).items
         end
       end
     end
 
-    context 'when the requested key does not exist' do
-      it 'displays an error message' do
-        pending
+    context 'with keys option specified' do
+      context 'when the requested key exists' do
+        before do
+          ResponseMate::Commands::Record.new([], { keys: ['user_issues'] }).run
+        end
+
+        it 'creates an output response file', focus: true do
+          expect(output_files.call).to have_exactly(1).items
+        end
+
+        describe 'output response file' do
+          let(:output_filename) do
+            File.join(ResponseMate.configuration.output_dir, 'user_issues.yml')
+          end
+
+          it 'has the right file extension' do
+            expect(File.exists?(output_filename)).to be_true
+          end
+
+          describe 'YAML content' do
+            let(:output_content) do
+              File.read(output_filename)
+            end
+
+            subject { YAML.load(output_content) }
+
+            it 'is valid' do
+              expect { subject }.to_not raise_error
+            end
+
+            it 'contains the original request verb' do
+              expect(subject[:request][:verb]).to be_present
+            end
+
+            it 'contains the original request path' do
+              pending
+            end
+
+            it 'contains the original request params' do
+              pending
+            end
+
+            it 'contains the response status' do
+              expect(subject[:response][:status]).
+                to eql(fake_response_user_issues[:status])
+            end
+
+            it 'includes the response headers' do
+              expect(subject[:response][:headers]).
+                to eql(fake_response_user_issues[:headers])
+            end
+
+            it 'includes the response body' do
+              expect(subject[:response][:body]).
+                to eql(fake_response_user_issues[:body])
+            end
+          end
+        end
+      end
+
+      context 'when the requested key does not exist' do
+        subject do
+          ResponseMate::Commands::Record.new([], {
+            keys: ['non_existing_key']
+          }).run
+        end
+
+        it 'raises ResponseMate::KeysNotFound'do
+          expect { subject }.to raise_error(ResponseMate::KeysNotFound)
+        end
       end
     end
   end
