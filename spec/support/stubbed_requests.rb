@@ -3,16 +3,16 @@ require 'spec_helper'
 shared_context 'stubbed_requests' do
   let(:fake_response_user_issues) {
     {
+      status: 418,
       headers: { 'x-issue-format' => 'tps report' },
       body: 'This user definitely has issues',
-      status: 418
     }
   }
 
   let(:fake_response_user_friends) {
     {
-      body: "User has friends",
-      status: 418
+      status: 418,
+      body: "User has friends"
     }
   }
 
@@ -33,9 +33,10 @@ shared_context 'stubbed_requests' do
                            body: fake_response_user_issues[:body],
                          }.merge(fake_response_user_issues[:headers]))
 
-    FakeWeb.register_uri(:get, 'http://www.someapi.com/user/42/friends',
-                           status: fake_response_user_friends[:status],
-                           body: fake_response_user_friends[:body])
+    FakeWeb.register_uri(:get, 'http://www.someapi.com/user/42/friends?' \
+                               'since=childhood&trusty=yes',
+                         status: fake_response_user_friends[:status],
+                         body: fake_response_user_friends[:body])
   end
 
   before(:each) do
