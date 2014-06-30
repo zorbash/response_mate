@@ -17,4 +17,8 @@ class ResponseMate::Request < OpenStruct
     out << "\tparams #{request[:params]}" if request[:params].present?
     out
   end
+
+  def to_hash
+    marshal_dump[:request]
+  end
 end
