@@ -8,7 +8,7 @@ describe ResponseMate::Commands::Record do
   describe '#run' do
     context 'with keys option unspecified' do
       before do
-        ResponseMate::Commands::Record.new([], {}).run
+        quietly { ResponseMate::Commands::Record.new([], { keys: [] }).run }
       end
 
       describe 'output files' do
@@ -21,10 +21,12 @@ describe ResponseMate::Commands::Record do
     context 'with keys option specified' do
       context 'when the requested key exists' do
         before do
-          ResponseMate::Commands::Record.new([], { keys: ['user_issues'] }).run
+          quietly do
+            ResponseMate::Commands::Record.new([], { keys: ['user_issues'] }).run
+          end
         end
 
-        it 'creates an output response file', focus: true do
+        it 'creates an output response file' do
           expect(output_files.call).to have_exactly(1).items
         end
 
@@ -38,10 +40,7 @@ describe ResponseMate::Commands::Record do
           end
 
           describe 'YAML content' do
-            let(:output_content) do
-              File.read(output_filename)
-            end
-
+            let(:output_content) { File.read(output_filename) }
             subject { YAML.load(output_content) }
 
             it 'is valid' do
@@ -80,9 +79,7 @@ describe ResponseMate::Commands::Record do
 
       context 'when the requested key does not exist' do
         subject do
-          ResponseMate::Commands::Record.new([], {
-            keys: ['non_existing_key']
-          }).run
+          ResponseMate::Commands::Record.new([], { keys: ['non_existing_key'] }).run
         end
 
         it 'raises ResponseMate::KeysNotFound'do
