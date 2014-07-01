@@ -32,4 +32,19 @@ class ResponseMate::Manifest
       map(&:deep_symbolize_keys!).
       map { |rh| ResponseMate::Request.new(rh).normalize! }
   end
+
+  def requests_for_keys(keys)
+    if keys.present?
+      existing_keys = requests.map(&:key)
+      missing_keys = keys - existing_keys
+
+      if missing_keys.present?
+        raise ResponseMate::KeysNotFound.new(missing_keys.join(','))
+      end
+
+      requests.select! do |r|
+        keys.include? r.key
+      end
+    end
+  end
 end
