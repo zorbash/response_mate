@@ -1,104 +1,74 @@
 # coding: utf-8
 require 'spec_helper'
 
-# TODO: This spec needs some love
-describe ResponseMate::Recorder, fakefs: true do
-  pending '.initialize' do
-    let(:subject) { ResponseMate::Recorder.new }
+describe ResponseMate::Recorder do
+  include_context 'stubbed_requests'
 
-    context 'args[:requests_manifest] is present' do
-      let(:subject) { ResponseMate::Recorder.new(requests_manifest: 'lala.yml') }
+  let(:user_issues_request) do
+    ResponseMate::Request.new(
+      key: 'user_issues',
+      request: {
+        url: 'www.someapi.com/user/42/issues'
+      }).normalize!
+  end
 
-      it 'assigns @requests_manifest to that argument' do
-        expect(subject.requests_manifest).to eq('lala.yml')
+  let(:user_friends_request) do
+    ResponseMate::Request.new(
+      key: 'user_friends',
+      request: {
+        url: 'www.someapi.com/user/42/friends',
+        params: {
+          trusty: 'yes',
+          since: 'childhood'
+        }
+      }).normalize!
+  end
+
+  let(:requests) { [user_issues_request, user_friends_request] }
+  let(:manifest) { double(requests: requests) }
+
+  describe '.initialize' do
+    context 'when initialization option :manifest is present' do
+      let(:subject) { ResponseMate::Recorder.new(manifest: manifest) }
+
+      it 'assigns manifest to that argument' do
+        expect(subject.manifest).to eq(manifest)
       end
     end
 
-    pending 'args[:requests_manifest] is not present' do
-      let(:subject) { ResponseMate::Recorder.new }
-
-      it 'assigns @requests_manifest to ResponseMate.configuration.requests_manifest' do
-        expect(subject.requests_manifest).
-          to eq(ResponseMate.configuration.requests_manifest)
-      end
-    end
-
-    context 'args[:base_url] is present' do
-      let(:subject) { ResponseMate::Recorder.new(base_url: 'http://example.com') }
-
-      it 'assigns @base_url to that argument' do
-        expect(subject.base_url).to eq('http://example.com')
-      end
-    end
-
-    context 'args[:base_url] is not present' do
-      it 'assigns @base_url to the one found in the manifest' do
-        expect(subject.base_url).to eq('http://koko.com')
-      end
-    end
-
-    it 'calls #parse_requests_manifest' do
-      ResponseMate::Recorder.any_instance.should_receive :parse_requests_manifest
-      subject
-    end
-
-    it 'calls #initialize_connection' do
-      ResponseMate::Recorder.any_instance.should_receive :initialize_connection
-      subject
+    it 'creates a new instance of ResponseMate::Connection' do
+      expect(subject.conn).to be_a(ResponseMate::Connection)
     end
   end
 
-  pending '#record', fakefs: false do
+  describe '#record' do
+    let(:subject) { ResponseMate::Recorder.new(manifest: manifest) }
+
     before do
-      FakeFS.deactivate!
-      FileUtils.cp 'spec/fixtures/two_keys.yml.erb', 'two_keys.yml.erb'
-      ResponseMate::Oauth.any_instance.stub(:token).and_return 'some_token'
+      allow(manifest).to receive(:requests_for_keys).and_return([user_issues_request])
     end
 
-    after do
-      FileUtils.rm ['two_keys.yml.erb'] + Dir.glob('output/responses/*.yml')
+    context 'with a single key specified' do
+      it 'only records this key' do
+        subject.should_receive(:process).with(user_issues_request)
+        subject.record('user_issues')
+      end
     end
 
-    let(:subject) { ResponseMate::Recorder.new(requests_manifest: 'two_keys.yml.erb') }
-
-    describe 'output file' do
-      before do
-        subject.stub(:fetch).and_return(double(status: 200, headers: 'koko', body: 'foo'))
-        subject.record
+    context 'with no keys specified' do
+      it 'records all keys in the manifest' do
+        quietly { subject.record([]) }
+        expect(output_files.call).to have_exactly(2).items
       end
+    end
+  end
 
-      let(:response) { YAML::load_file 'output/responses/one.yml' }
+  describe '#process' do
+    let(:subject) { ResponseMate::Recorder.new(manifest: manifest) }
 
-      it 'is named after the recording key and ends in .yml' do
-        expect(Dir.glob('output/responses/*.yml').map { |f| File.basename f }).
-          to eq(%w(one.yml two.yml))
-      end
-
-      it 'contains response status' do
-        expect(response[:status]).to eq(200)
-      end
-
-      it 'contains response headers' do
-        expect(response[:headers]).to eq('koko')
-      end
-
-      it 'contains response body' do
-        expect(response[:body]).to eq('foo')
-      end
-
-      describe 'request' do
-        it 'contains verb' do
-          expect(response[:request][:verb]).to be_present
-        end
-
-        it 'contains path' do
-          expect(response[:request][:path]).to be_present
-        end
-
-        it 'contains params' do
-          expect(response[:request][:params]).to be_present
-        end
-      end
+    it 'writes a new ResponseMate::Tape for the specified request' do
+      ResponseMate::Tape.any_instance.should_receive(:write)
+      quietly { subject.send :process, user_issues_request }
     end
   end
 end
