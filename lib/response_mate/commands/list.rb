@@ -1,52 +1,41 @@
 # coding: utf-8
+class ResponseMate::Commands::List < ResponseMate::Commands::Base
+  def run
+    environment = ResponseMate::Environment.new(options[:environment])
+    @manifest = ResponseMate::Manifest.new(options[:requests_manifest], environment)
 
-module ResponseMate
-  module Commands
-    class ResponseMate::Commands::List < Base
-      attr_accessor :type
+    available_keys = @manifest.requests.map { |r| r.key.to_sym }
 
-      def initialize(args, options)
-        super(args, options)
-        @type = args.first || 'requests'
+    puts available_keys.join("\n") << "\n\n"
 
-        environment = ResponseMate::Environment.new(options[:environment])
-        @options[:manifest] = ResponseMate::Manifest.new(options[:requests_manifest],
-          environment)
-      end
+    action = ask_action
+    return if action == :no
 
-      def run
-        if type == 'requests'
-          choices = options[:manifest].requests.map { |r| r.key.to_sym }
-        elsif type == 'recordings'
-          choices = Dir.glob('output/responses/*.yml').map do |f|
-            File.basename(f).gsub(/\.yml/, '').to_sym
-          end
-        end
+    perform_action(action, ask_key(available_keys))
+  end
 
-        puts choices.join "\n"
-        puts "\n\n"
-        action = choose { |menu|
-          menu.prompt = 'Want to perform any of the actions above?'
-          menu.choices(:record, :inspect, :no)
-        }
+  private
 
-        unless action == :no
-          key = choose { |menu|
-            menu.prompt = 'Which one?'
-            menu.choices(*choices)
-          }.to_s
-        end
+  def ask_action
+    choose do |menu|
+      menu.prompt = 'Want to perform any of the actions above?'
+      menu.choices(:record, :inspect, :no)
+    end
+  end
 
-        if key
-          case action
-          when :record
-            ResponseMate::Recorder.new({ manifest: options[:manifest], keys: [key] }).
-              record
-          when :inspect
-            ResponseMate::Inspector.new(manifest: options[:manifest]).inspect_key(key)
-          end
-        end
-      end
+  def ask_key(available_keys)
+    choose { |menu|
+      menu.prompt = 'Which one?'
+      menu.choices(*available_keys)
+    }.to_s
+  end
+
+  def perform_action(action, key)
+    case action
+    when :record
+      ResponseMate::Recorder.new(manifest: @manifest).record([key])
+    when :inspect
+      ResponseMate::Inspector.new(manifest: @manifest).inspect_key(key)
     end
   end
 end
