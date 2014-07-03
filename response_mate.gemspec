@@ -24,7 +24,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'fakefs'
 
-  spec.add_dependency 'thor', '~> 0.18.1'
+  spec.add_dependency 'thor', '~> 0.19'
   spec.add_dependency 'awesome_print'
   spec.add_dependency 'activesupport'
   spec.add_dependency 'colored'
