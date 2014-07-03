@@ -23,32 +23,30 @@ A specific directory structure must be present to store the recordings.
 To scaffold it do:
 `response_mate setup`
 
-ResponseMate's tasks heavily depend on a manifest file where you declare 
+ResponseMate's tasks heavily depend on a manifest file where you declare
 the requests to be made. The default expected filename of this manifest
 is `requests.yml`.
-The expected format of this file is like [this](https://gist.github.com/anonymous/8055040)
 
 Example:
 
 ```yaml
-base_url: http://localhost:3000/api
 default_headers:
-  accept: 'application/vnd.github.beta+json'
+  accept: 'application/vnd.{{app_name}}.beta+json'
 requests:
-  -
-    key: user_repos
-    request: 'GET /user/repos'
   -
     key: user_issues
     request:
-      path: '/user/issues'
-      params:
-        sort: 'updated'
+      url: 'http://someapi.com/users/42/issues
   -
-    key: users_repos
-    request: 'GET /users/{{some_user_id}}/repos'
-
+    key: user_friends
+    request:
+      url: 'http://someapi.com/users/42/friends'
+      params:
+        since: 'childhood'
+        honest: '{{are_my_friends_host}}'
 ```
+Expressions inside `{{}}` will be evaluated as Mustache templates using
+values from a file `environment.yml` that may be present.
 
 ## Record
 ### Default
@@ -64,10 +62,6 @@ Record all the keys of the requests manifest file being `requests.yml`
 
 `response_mate record -r foo_api.yml`
 
-### Specify a different base url for the requests
-
-`response_mate record -b http://api.foo.com`
-
 ## Clear
 
 Remove any existing recordings
@@ -79,20 +73,6 @@ Remove any existing recordings
 Performs the request and displays the output without recording
 
 `response_mate inspect some_key`
-
-### Interactive mode
-
-`response_mate inspect -i`
-
-Starts a `response_mate>` interactive shell that allows you to issue
-requests and inspect their output.
-
-Examples:
-
-`>response_mate GET google.com`
-
-Also you can type `history` in the shell to get the history of requests
-and replay any of them.
 
 ## List
 
@@ -132,7 +112,3 @@ Exports a requests manifest file to a different format
 Released under the MIT License. See the
 [LICENSE](https://github.com/Zorbash/response_mate/blob/master/LICENSE) file
 for further details.
-
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/Zorbash/response_mate/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
