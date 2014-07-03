@@ -15,39 +15,20 @@ class ResponseMate::Connection
   end
 
   def fetch(request)
-    main_uri = if request[:url]
-                 request[:url]
-               elsif request[:host]
-                 request[:host]
-               end
+    uri = URI.parse(request[:url])
 
-    adjusted_uri = adjust_scheme(main_uri, request[:scheme])
-    uri = URI.parse(adjusted_uri)
-    uri.path  = adjust_path(request[:path]) if request[:path]
-    uri.query = request[:params].to_query if request[:params]
+    if request[:params]
+      query = request[:params].to_query
+      query = uri.query ? uri.query << '&' << query : query
+      uri.query = query
+    end
+
     verb = request[:verb] || 'GET'
 
+    client.headers = request[:headers] if request[:headers]
     client.send verb.downcase.to_sym, uri.to_s
   rescue Faraday::Error::ConnectionFailed
     puts "Is a server up and running at #{request[:path]}?".red
     exit 1
-  end
-
-  def adjust_scheme(uri, scheme)
-    scheme = %w[http https].include?(scheme) ? scheme : 'http'
-
-    if uri !~ /\Ahttp(s)?/
-      "#{scheme}://#{uri}"
-    else
-      uri
-    end
-  end
-
-  def adjust_path(path)
-    if path !~ %r{\A/}
-      "/#{path}"
-    else
-      path
-    end
   end
 end
