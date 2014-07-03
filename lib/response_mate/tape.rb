@@ -22,4 +22,11 @@ class ResponseMate::Tape
   rescue Errno::ENOENT
     raise ResponseMate::OutputDirError
   end
+
+  class << self
+    def load(key)
+      YAML.load_file(File.join(ResponseMate.configuration.output_dir, "#{key}.yml")).
+        symbolize_keys
+    end
+  end
 end
