@@ -19,6 +19,6 @@ class ResponseMate::Environment
       exit 1
     end
 
-    @env = YAML.load(environment_text)
+    @env = ::YAML.load(environment_text)
   end
 end

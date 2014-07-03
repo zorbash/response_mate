@@ -3,9 +3,9 @@
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 require 'response_mate'
 require 'fakeweb'
-#require 'coveralls'
+require 'coveralls'
 
-#Coveralls.wear!
+Coveralls.wear!
 
 Dir["./spec/support/**/*.rb"].sort.each { |f| require f }
 

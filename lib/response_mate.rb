@@ -10,6 +10,8 @@ require 'highline/import'
 require 'mustache'
 require 'ostruct'
 
+autoload :YAML, 'yaml'
+
 require 'response_mate/version'
 
 require 'response_mate/commands/base'
