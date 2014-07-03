@@ -6,7 +6,7 @@ module ResponseMate
 
     desc 'record', 'Perform requests and record their output'
     method_option :requests_manifest, aliases: '-r'
-    method_option :keys, aliases: '-k', type: :array
+    method_option :keys, aliases: '-k', type: :array, default: []
     def record
       ResponseMate::Commands::Record.new(args, options).run
     rescue ResponseMate::KeysNotFound => e

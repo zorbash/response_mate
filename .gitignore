@@ -7,6 +7,9 @@ tmp
 .rvmrc
 .rbenv*
 
+spec/source/responses
+spec/source/responses.last_recording
+
 output
 oauth.yml
 
