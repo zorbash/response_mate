@@ -9,4 +9,4 @@ RSpec::Core::RakeTask.new(:test) do |spec|
   spec.rspec_opts = ['--color', '--format nested']
 end
 
-task :default => :test
+task default: :test

@@ -15,7 +15,7 @@ module ResponseMate
 
     desc 'inspect [key1,key2]', 'Perform requests and print their output'
     method_option :requests_manifest, aliases: '-r'
-    method_option :interactive, type: :boolean, aliases: "-i"
+    method_option :interactive, type: :boolean, aliases: '-i'
     def inspect(*keys)
       ResponseMate::Commands::Inspect.new(args, options).run
     end
@@ -39,7 +39,7 @@ module ResponseMate
 
     desc 'version', 'Print version information'
     def version
-      puts "ResponseMate version #{ResponseMate::VERSION}"
+      puts "response_mate version #{ResponseMate::VERSION}"
     end
     map ['--version'] => :version
 
