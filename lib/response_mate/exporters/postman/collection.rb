@@ -33,23 +33,27 @@ class ResponseMate::Exporters::Postman
 
     def build_requests
       manifest.requests.each do |request|
-        out_req = {
-          id: SecureRandom.uuid,
-          collectionId: out[:id],
-          data: [],
-          description: '',
-          method: request[:verb],
-          name: request.key,
-          url: request[:url],
-          version: 2,
-          responses: [],
-          dataMode: 'params',
-          headers: request[:headers].map { |k, v| "#{k}: #{v}" }.join("\n")
-        }
+        out_req = build_request(request)
 
         out[:order] << out_req[:id]
         out[:requests] << out_req
       end
+    end
+
+    def build_request(request)
+      {
+        id: SecureRandom.uuid,
+        collectionId: out[:id],
+        data: [],
+        description: '',
+        method: request[:verb],
+        name: request.key,
+        url: request[:url],
+        version: 2,
+        responses: [],
+        dataMode: 'params',
+        headers: request[:headers].map { |k, v| "#{k}: #{v}" }.join("\n")
+      }
     end
   end
 end
