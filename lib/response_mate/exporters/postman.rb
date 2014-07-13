@@ -5,6 +5,9 @@ module ResponseMate::Exporters
   # Example output
   # https://www.getpostman.com/collections/dbc0521911e45471ff4a
   class Postman
+    autoload :Collection, 'response_mate/exporters/postman/collection'
+    autoload :Environment, 'response_mate/exporters/postman/environment'
+
     include ResponseMate::ManifestParser
 
     attr_accessor :manifest, :environment, :resource, :out
