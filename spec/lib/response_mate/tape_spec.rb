@@ -110,7 +110,7 @@ describe ResponseMate::Tape do
       end
 
       it 'returns valid YAML' do
-        expect(subject).to_not raise_error
+        expect { subject }.to_not raise_error
       end
     end
 
