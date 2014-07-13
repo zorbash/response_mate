@@ -25,7 +25,6 @@ Dir.glob(File.join(File.expand_path('..', __FILE__), 'response_mate/helpers/*'))
 
 require 'response_mate/manifest_parser'
 require 'response_mate/connection'
-require 'response_mate/http'
 require 'response_mate/core'
 require 'response_mate/request'
 require 'response_mate/environment'
