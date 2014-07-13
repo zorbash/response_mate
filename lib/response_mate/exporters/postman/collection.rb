@@ -5,8 +5,6 @@ class ResponseMate::Exporters::Postman
   # Example output
   # https://www.getpostman.com/collections/dbc0521911e45471ff4a
   class Collection
-    include ResponseMate::ManifestParser
-
     attr_accessor :manifest, :out
 
     def initialize(manifest)
@@ -26,6 +24,7 @@ class ResponseMate::Exporters::Postman
       out.merge!(
         id: SecureRandom.uuid,
         name: manifest.name,
+        description: manifest.description,
         requests: [],
         order: [],
         timestamp: Time.now.to_i
@@ -34,26 +33,18 @@ class ResponseMate::Exporters::Postman
 
     def build_requests
       manifest.requests.each do |request|
-        req = ResponseMate::Manifest.parse_request(request.request)
-        url = if req[:params].present?
-                "#{req[:path]}?#{req[:params].to_query}"
-              else
-                req[:path]
-              end
-
         out_req = {
           id: SecureRandom.uuid,
           collectionId: out[:id],
           data: [],
           description: '',
-          method: req[:verb],
+          method: request[:verb],
           name: request.key,
-          url: url,
+          url: request[:url],
           version: 2,
           responses: [],
           dataMode: 'params',
-          headers: (request.headers || manifest.default_headers)
-            .map{|k,v| "#{k}: #{v}" }.join("\n")
+          headers: request[:headers].map { |k, v| "#{k}: #{v}" }.join("\n")
         }
 
         out[:order] << out_req[:id]

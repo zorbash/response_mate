@@ -3,7 +3,8 @@
 class ResponseMate::Manifest
   include ResponseMate::ManifestParser
 
-  attr_accessor :filename, :requests, :requests_text, :environment, :name
+  attr_accessor :filename, :requests, :requests_text, :environment
+  attr_reader :name, :description
 
   def initialize(filename, environment = nil)
     @filename = filename || ResponseMate.configuration.requests_manifest
@@ -28,6 +29,7 @@ class ResponseMate::Manifest
     preprocess_manifest
     @request_hashes = YAML.load(requests_text).deep_symbolize_keys
     @name = @request_hashes[:name] || filename
+    @description = @request_hashes[:description] || ''
     @requests = @request_hashes[:requests].
       map(&:deep_symbolize_keys!).
       map { |rh| ResponseMate::Request.new(rh).normalize! }
