@@ -3,7 +3,7 @@
 # This class provides a layer above the HTTP client
 class ResponseMate::Connection
   delegate :params, to: :client
-  delegate(*(ResponseMate::ManifestParser::HTTP_VERBS), to: :client)
+  delegate(*(ResponseMate::HTTP_METHODS), to: :client)
 
   attr_accessor :client
 

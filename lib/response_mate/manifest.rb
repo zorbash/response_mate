@@ -1,8 +1,6 @@
 # coding: utf-8
 
 class ResponseMate::Manifest
-  include ResponseMate::ManifestParser
-
   attr_accessor :filename, :requests, :requests_text, :environment
   attr_reader :name, :description
 

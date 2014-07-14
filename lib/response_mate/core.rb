@@ -4,9 +4,8 @@ module ResponseMate
   class OutputDirError < StandardError; end
   class KeysNotFound < StandardError; end
 
-  DEFAULT_HEADERS = {
-    'User-Agent' => 'Response-Mate'
-  }
+  HTTP_METHODS = %w(GET POST PUT PATCH DELETE HEAD OPTIONS)
+  DEFAULT_HEADERS = { 'User-Agent' => 'Response-Mate' }
 
   class << self
     attr_accessor :configuration

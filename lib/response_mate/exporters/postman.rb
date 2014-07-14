@@ -8,8 +8,6 @@ module ResponseMate::Exporters
     autoload :Collection, 'response_mate/exporters/postman/collection'
     autoload :Environment, 'response_mate/exporters/postman/environment'
 
-    include ResponseMate::ManifestParser
-
     attr_accessor :manifest, :environment, :resource, :out
 
     def initialize(manifest, environment, resource)

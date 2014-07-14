@@ -4,7 +4,7 @@ class ResponseMate::Request < OpenStruct
   delegate :[], to: :request
 
   def normalize!
-    unless ResponseMate::ManifestParser::HTTP_VERBS.include? self.request[:verb]
+    unless ResponseMate::HTTP_METHODS.include? self.request[:verb]
       self.request[:verb] = 'GET'
     end
 
