@@ -28,15 +28,45 @@ describe ResponseMate::Tape do
   describe '#write' do
     let(:tape) { YAML.load_file(output_files.call.last) }
 
-    before do
-      ResponseMate::Tape.new.write(key, request, response, meta)
+    let(:output_dir) { nil }
+
+    let(:write) do
+      ResponseMate::Tape.new.write(key, request, response, meta, output_dir)
     end
 
+    subject { write }
+
     it 'creates a new tape with key parameter as the filename' do
+      subject
       expect(File.basename(output_files.call.last)).to eq("#{key}.yml")
     end
 
+    describe 'tape location' do
+      context 'when the specified output_dir exists' do
+        let(:output_dir) { File.expand_path('./spec/source/other_output_dir') }
+        let(:output_files) { ->{ Dir[output_dir + '/*'] } }
+
+        after { output_files.call.each { |file| File.delete(file) } }
+
+        it 'is inside the specified output_dir' do
+          subject
+          expect(tape).to be
+        end
+      end
+
+      context 'when the specified output_dir does not exist' do
+        let(:output_dir) do
+          File.expand_path('spec/source/i_do_not_exist')
+        end
+
+        it 'raises ResponeMate::OutputDirError' do
+          expect { subject }.to raise_error(ResponseMate::OutputDirError)
+        end
+      end
+    end
+
     describe 'the created tape' do
+      before { write }
       subject { tape }
 
       it 'is valid YAML' do
