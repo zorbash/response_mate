@@ -3,11 +3,12 @@
 module ResponseMate
   # Handles recording requests
   class Recorder
-    attr_accessor :conn, :manifest, :keys
+    attr_accessor :conn, :manifest, :keys, :output_dir
 
     def initialize(args = {})
       @manifest = args[:manifest]
       @conn = ResponseMate::Connection.new
+      @output_dir = args[:output_dir]
     end
 
     def record(keys)
@@ -22,7 +23,11 @@ module ResponseMate
       meta = request.meta
       puts request.to_cli_format
 
-      ResponseMate::Tape.new.write(request.key, request, conn.fetch(request), meta)
+      ResponseMate::Tape.new.write(request.key,
+                                   request,
+                                   conn.fetch(request),
+                                   meta,
+                                   output_dir)
     end
   end
 end

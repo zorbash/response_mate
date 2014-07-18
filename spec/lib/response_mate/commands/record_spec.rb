@@ -18,6 +18,50 @@ describe ResponseMate::Commands::Record do
       end
     end
 
+    context 'with output_dir option specified' do
+      let(:other_output_dir) do
+        File.expand_path('spec/source/other_output_dir')
+      end
+
+      let(:cmd_with_output_dir) do
+        quietly do
+          ResponseMate::Commands::Record.new([], {
+            keys: [],
+            output_dir: [other_output_dir]
+          }).run
+        end
+      end
+
+      context 'when the specified directory exists' do
+        let(:output_files) { ->{ Dir[other_output_dir + '/*'] } }
+
+        before { cmd_with_output_dir }
+        after { output_files.call.each { |file| File.delete(file) } }
+
+        it 'created the tapes in the specified directory' do
+          expect(output_files.call).to have_exactly(2).items
+        end
+      end
+
+      context 'when the specified directory does not exist' do
+        let(:other_output_dir) do
+          File.expand_path('spec/source/i_do_not_exist')
+        end
+
+        it 'raises ResponeMate::OutputDirError' do
+          expect { cmd_with_output_dir }.to raise_error(ResponseMate::OutputDirError)
+        end
+      end
+    end
+
+    context 'with output_dir option unspecified' do
+      it 'creates the tapes in the default output directory' do
+        quietly { ResponseMate::Commands::Record.new([], { keys: [] }).run }
+
+        expect(output_files.call).to have_exactly(2).items
+      end
+    end
+
     context 'with keys option specified' do
       context 'when the requested key exists' do
         before do
