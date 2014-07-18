@@ -8,7 +8,6 @@ tmp
 .rbenv*
 
 spec/source/responses
-spec/source/responses.last_recording
 spec/source/other_output_dir
 
 output

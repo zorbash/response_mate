@@ -9,13 +9,10 @@ module ResponseMate
         manifest = ResponseMate::Manifest.new(options[:requests_manifest], environment)
 
         options[:manifest] = manifest
+
         recorder = ResponseMate::Recorder.new(options)
 
         recorder.record(options[:keys])
-
-        File.open(ResponseMate.configuration.output_dir + '.last_recording', 'w') do |f|
-          f << Time.current
-        end
       end
     end
   end
