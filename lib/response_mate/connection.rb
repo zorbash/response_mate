@@ -1,5 +1,3 @@
-# coding: utf-8
-
 # This class provides a layer above the HTTP client
 class ResponseMate::Connection
   delegate :params, to: :client

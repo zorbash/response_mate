@@ -1,5 +1,3 @@
-# coding: utf-8
-
 module ResponseMate
   module Commands
     # Handles the invocation of the record command

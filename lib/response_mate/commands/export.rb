@@ -1,9 +1,6 @@
-# coding: utf-8
-
 module ResponseMate
   module Commands
     class ResponseMate::Commands::Export < Base
-
       def initialize(args, options)
         super(args, options)
         @type = args.first || 'requests'

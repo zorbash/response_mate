@@ -1,5 +1,3 @@
-# coding: utf-8
-
 module ResponseMate
   module Commands
     # Handles the invocation of the clear command
@@ -11,15 +9,15 @@ module ResponseMate
         @options = options.dup
 
         @output_dir = if args.present?
-          args.first
-        else
-          ResponseMate.configuration.output_dir
-        end
+                        args.first
+                      else
+                        ResponseMate.configuration.output_dir
+                      end
       end
 
       def run
         FileUtils.rm_rf(output_dir + '.')
-        puts "All clean and shiny!"
+        puts 'All clean and shiny!'
       end
     end
   end

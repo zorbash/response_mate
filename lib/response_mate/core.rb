@@ -1,10 +1,9 @@
-# coding: utf-8
 # The main module of the tool contains configuration code and some constants
 module ResponseMate
   class OutputDirError < StandardError; end
   class KeysNotFound < StandardError; end
 
-  HTTP_METHODS = %w(GET POST PUT PATCH DELETE HEAD OPTIONS)
+  HTTP_METHODS = %w[GET POST PUT PATCH DELETE HEAD OPTIONS]
   DEFAULT_HEADERS = { 'User-Agent' => 'Response-Mate' }
 
   class << self

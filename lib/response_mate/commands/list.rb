@@ -1,4 +1,3 @@
-# coding: utf-8
 class ResponseMate::Commands::List < ResponseMate::Commands::Base
   def run
     environment = ResponseMate::Environment.new(options[:environment])
@@ -24,10 +23,10 @@ class ResponseMate::Commands::List < ResponseMate::Commands::Base
   end
 
   def ask_key(available_keys)
-    choose { |menu|
+    choose do |menu|
       menu.prompt = 'Which one?'
       menu.choices(*available_keys)
-    }.to_s
+    end.to_s
   end
 
   def perform_action(action, key)

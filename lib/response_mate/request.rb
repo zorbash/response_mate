@@ -1,14 +1,12 @@
-# coding: utf-8
-
 class ResponseMate::Request < OpenStruct
   delegate :[], to: :request
 
   def normalize!
-    unless ResponseMate::HTTP_METHODS.include? self.request[:verb]
-      self.request[:verb] = 'GET'
+    unless ResponseMate::HTTP_METHODS.include? request[:verb]
+      request[:verb] = 'GET'
     end
 
-    self.request[:url] = URI.encode(adjust_scheme(request[:url], request[:scheme]))
+    request[:url] = URI.encode(adjust_scheme(request[:url], request[:scheme]))
 
     self
   end

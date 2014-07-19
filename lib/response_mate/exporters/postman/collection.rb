@@ -1,5 +1,3 @@
-# coding: utf-8
-
 class ResponseMate::Exporters::Postman
   # Handles exporting to postman format
   # Example output

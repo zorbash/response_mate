@@ -1,5 +1,3 @@
-# coding: utf-8
-
 require 'spec_helper'
 
 describe ResponseMate::Commands::Record do
@@ -8,7 +6,7 @@ describe ResponseMate::Commands::Record do
   describe '#run' do
     context 'with keys option unspecified' do
       before do
-        quietly { ResponseMate::Commands::Record.new([], { keys: [] }).run }
+        quietly { ResponseMate::Commands::Record.new([], keys: []).run }
       end
 
       describe 'output files' do
@@ -25,15 +23,13 @@ describe ResponseMate::Commands::Record do
 
       let(:cmd_with_output_dir) do
         quietly do
-          ResponseMate::Commands::Record.new([], {
-            keys: [],
-            output_dir: [other_output_dir]
-          }).run
+          ResponseMate::Commands::Record.new([], keys: [],
+                                                 output_dir: [other_output_dir]).run
         end
       end
 
       context 'when the specified directory exists' do
-        let(:output_files) { ->{ Dir[other_output_dir + '/*'] } }
+        let(:output_files) { -> { Dir[other_output_dir + '/*'] } }
 
         before { cmd_with_output_dir }
         after { output_files.call.each { |file| File.delete(file) } }
@@ -56,7 +52,7 @@ describe ResponseMate::Commands::Record do
 
     context 'with output_dir option unspecified' do
       it 'creates the tapes in the default output directory' do
-        quietly { ResponseMate::Commands::Record.new([], { keys: [] }).run }
+        quietly { ResponseMate::Commands::Record.new([], keys: []).run }
 
         expect(output_files.call).to have_exactly(2).items
       end
@@ -66,7 +62,7 @@ describe ResponseMate::Commands::Record do
       context 'when the requested key exists' do
         before do
           quietly do
-            ResponseMate::Commands::Record.new([], { keys: ['user_issues'] }).run
+            ResponseMate::Commands::Record.new([], keys: ['user_issues']).run
           end
         end
 
@@ -80,7 +76,7 @@ describe ResponseMate::Commands::Record do
           end
 
           it 'has the right file extension' do
-            expect(File.exists?(output_filename)).to be_true
+            expect(File.exist?(output_filename)).to be_true
           end
 
           describe 'YAML content' do
@@ -123,7 +119,7 @@ describe ResponseMate::Commands::Record do
 
       context 'when the requested key does not exist' do
         subject do
-          ResponseMate::Commands::Record.new([], { keys: ['non_existing_key'] }).run
+          ResponseMate::Commands::Record.new([], keys: ['non_existing_key']).run
         end
 
         it 'raises ResponseMate::KeysNotFound'do

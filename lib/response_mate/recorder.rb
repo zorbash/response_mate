@@ -1,5 +1,3 @@
-# coding: utf-8
-
 module ResponseMate
   # Handles recording requests
   class Recorder

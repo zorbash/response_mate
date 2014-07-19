@@ -137,4 +137,5 @@ DEPENDENCIES
   rake
   response_mate!
   rspec (~> 2.14.0)
+  rubocop
   simplecov (~> 0.8.2)

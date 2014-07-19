@@ -1,4 +1,3 @@
-# coding: utf-8
 require 'spec_helper'
 
 describe ResponseMate::Tape do
@@ -44,7 +43,7 @@ describe ResponseMate::Tape do
     describe 'tape location' do
       context 'when the specified output_dir exists' do
         let(:output_dir) { File.expand_path('./spec/source/other_output_dir') }
-        let(:output_files) { ->{ Dir[output_dir + '/*'] } }
+        let(:output_files) { -> { Dir[output_dir + '/*'] } }
 
         after { output_files.call.each { |file| File.delete(file) } }
 

@@ -1,5 +1,3 @@
-# coding: utf-8
-
 class ResponseMate::Inspector
   attr_accessor :conn, :manifest
 
@@ -9,7 +7,7 @@ class ResponseMate::Inspector
     @conn = ResponseMate::Connection.new
   end
 
-  def inspect_key(key, options = {})
+  def inspect_key(key)
     request = manifest.requests.find { |r| r.key == key }
 
     puts request.to_cli_format

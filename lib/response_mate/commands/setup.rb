@@ -1,5 +1,3 @@
-# coding: utf-8
-
 module ResponseMate
   module Commands
     # Handles the invocation of the setup command
@@ -11,10 +9,10 @@ module ResponseMate
         @options = options.dup
 
         @output_dir = if args.present?
-          args.first
-        else
-          ResponseMate.configuration.output_dir
-        end
+                        args.first
+                      else
+                        ResponseMate.configuration.output_dir
+                      end
       end
 
       def run

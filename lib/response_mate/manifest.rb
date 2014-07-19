@@ -1,5 +1,3 @@
-# coding: utf-8
-
 class ResponseMate::Manifest
   attr_accessor :filename, :requests, :requests_text, :environment
   attr_reader :name, :description
@@ -18,7 +16,7 @@ class ResponseMate::Manifest
       exit 1
     end
 
-    if environment.present?
+    if environment.present? # rubocop:disable Style/GuardClause
       @requests_text = Mustache.render(@requests_text, environment.try(:env) || {})
     end
   end
@@ -34,17 +32,17 @@ class ResponseMate::Manifest
   end
 
   def requests_for_keys(keys)
-    if keys.present?
-      existing_keys = requests.map(&:key)
-      missing_keys = keys - existing_keys
+    return [] if keys.empty?
 
-      if missing_keys.present?
-        raise ResponseMate::KeysNotFound.new(missing_keys.join(','))
-      end
+    existing_keys = requests.map(&:key)
+    missing_keys = keys - existing_keys
 
-      requests.select! do |r|
-        keys.include? r.key
-      end
+    if missing_keys.present?
+      fail ResponseMate::KeysNotFound.new(missing_keys.join(','))
+    end
+
+    requests.select! do |r|
+      keys.include? r.key
     end
   end
 end
