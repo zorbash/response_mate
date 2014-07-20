@@ -1,4 +1,6 @@
+# Command which performs the operations required by `response_mate list`
 class ResponseMate::Commands::List < ResponseMate::Commands::Base
+  # Run the command based on args, options provided
   def run
     environment = ResponseMate::Environment.new(options[:environment])
     @manifest = ResponseMate::Manifest.new(options[:requests_manifest], environment)

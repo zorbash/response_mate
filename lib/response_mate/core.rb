@@ -3,13 +3,10 @@ module ResponseMate
   class OutputDirError < StandardError; end
   class KeysNotFound < StandardError; end
 
+  # Methods handled by response_mate
   HTTP_METHODS = %w[GET POST PUT PATCH DELETE HEAD OPTIONS]
-  DEFAULT_HEADERS = { 'User-Agent' => 'Response-Mate' }
 
-  class << self
-    attr_accessor :configuration
-  end
-
+  # Responsible for keeping initialization configuration values
   class Configuration
     attr_accessor :output_dir, :requests_manifest, :environment
 
@@ -20,8 +17,13 @@ module ResponseMate
     end
   end
 
-  def self.setup
-    self.configuration ||= Configuration.new
-    yield(configuration) if block_given?
+  class << self
+    attr_accessor :configuration
+
+    # Initializer method to set configuration values
+    def setup
+      self.configuration ||= Configuration.new
+      yield(configuration) if block_given?
+    end
   end
 end

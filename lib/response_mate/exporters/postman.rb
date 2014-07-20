@@ -8,6 +8,9 @@ module ResponseMate::Exporters
 
     attr_accessor :manifest, :environment, :resource, :out
 
+    # @param {ResponseMate::Manifest} The requests manifest
+    # @param {ResponseMate::Manifest} The requests manifest
+    # @return {Response::Mate::Exporters::Postman}
     def initialize(manifest, environment, resource)
       @manifest    = manifest
       @environment = environment
@@ -15,6 +18,8 @@ module ResponseMate::Exporters
       @out = {}
     end
 
+    # Performs the export operation
+    # @return [Hash] The transformed resource
     def export
       case resource
       when 'manifest'

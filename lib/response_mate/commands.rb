@@ -1,3 +1,4 @@
+# All commands are namespaced by this module
 module ResponseMate::Commands
   autoload :Base, 'response_mate/commands/base'
   autoload :Record, 'response_mate/commands/record'

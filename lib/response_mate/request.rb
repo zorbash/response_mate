@@ -1,6 +1,10 @@
+# Responsible for keeping all logic related to a
+# request defined in the requests manifest
 class ResponseMate::Request < OpenStruct
   delegate :[], to: :request
 
+  # Make sure all defined requests in the manifest have complete
+  # information for {ResponseMate::Connection#fetch}
   def normalize!
     unless ResponseMate::HTTP_METHODS.include? request[:verb]
       request[:verb] = 'GET'
@@ -11,12 +15,14 @@ class ResponseMate::Request < OpenStruct
     self
   end
 
+  # @return [String] Output string suitable for a terminal
   def to_cli_format
     out = "[#{key}] #{request[:verb]}".cyan_on_black.bold << " #{request[:url]}"
     out << "\tparams #{request[:params]}" if request[:params].present?
     out
   end
 
+  # @return [Hash] The Hash representation of the request
   def to_hash
     marshal_dump[:request]
   end

@@ -10,6 +10,7 @@ class ResponseMate::Exporters::Postman
       @out = {}
     end
 
+    # Export the environment
     def export
       build_structure
       build_values

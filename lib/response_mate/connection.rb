@@ -12,6 +12,8 @@ class ResponseMate::Connection
     end
   end
 
+  # Performs the supplied request
+  # @param {ResponseMate::Request} The request to be performed
   def fetch(request)
     uri = URI.parse(request[:url])
 

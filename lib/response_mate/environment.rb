@@ -1,3 +1,7 @@
+# Responsible for parsing the environment file
+# The environment file (by default found as environment.yml in a project)
+# is a Hash which will be used for the rendering of the requests manifest as a
+# [Mustace template](http://mustache.github.io/mustache.5.html).
 class ResponseMate::Environment
   attr_accessor :filename, :env, :environment_text
 
@@ -8,6 +12,8 @@ class ResponseMate::Environment
     @env = {}
     parse
   end
+
+  private
 
   def parse
     begin

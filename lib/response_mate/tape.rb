@@ -1,4 +1,6 @@
+# Responsible for the recorded responses as files
 class ResponseMate::Tape
+  # Writes the tape as a file
   def write(key, request, response, meta = {}, output_dir = nil)
     output_dir ||= ResponseMate.configuration.output_dir
 
@@ -22,6 +24,8 @@ class ResponseMate::Tape
   rescue Errno::ENOENT
     raise ResponseMate::OutputDirError
   end
+
+  private
 
   def _utf8_encode(object)
     case object

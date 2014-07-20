@@ -1,4 +1,5 @@
 module ResponseMate
+  # Entry point of the command-line interface
   class CLI < ::Thor
     package_name 'response_mate'
 
