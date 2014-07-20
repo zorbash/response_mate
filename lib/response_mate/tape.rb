@@ -1,8 +1,6 @@
-# encoding: utf-8
-
 class ResponseMate::Tape
   def write(key, request, response, meta = {}, output_dir = nil)
-    output_dir = output_dir || ResponseMate.configuration.output_dir
+    output_dir ||= ResponseMate.configuration.output_dir
 
     output_path = File.join output_dir, "#{key}.yml"
 
@@ -30,7 +28,10 @@ class ResponseMate::Tape
     when String
       object.force_encoding('UTF-8')
     when Hash
-      object.each { |k, v| k = _utf8_encode(v); v = _utf8_encode(v) }
+      object.each do |k, v| # rubocop:disable Lint/UnusedBlockArgument
+        k = _utf8_encode(v) # rubocop:disable Lint/UselessAssignment
+        v = _utf8_encode(v) # rubocop:disable Lint/UselessAssignment
+      end
     when Array
       object.each { |v| _utf8_encode(v) }
     end

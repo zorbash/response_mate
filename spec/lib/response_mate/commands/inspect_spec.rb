@@ -1,5 +1,3 @@
-# coding: utf-8
-
 require 'spec_helper'
 
 describe ResponseMate::Commands::Inspect do
@@ -16,7 +14,7 @@ describe ResponseMate::Commands::Inspect do
           end
         end
 
-        expect(error_output.strip).to eq("At least one key has to be specified".red)
+        expect(error_output.strip).to eq('At least one key has to be specified'.red)
       end
     end
 
@@ -46,7 +44,7 @@ describe ResponseMate::Commands::Inspect do
 
       it 'includes the response status' do
         expect(captured_output).
-          to include(":status => #{fake_response_user_issues[:status].to_s}")
+          to include(":status => #{fake_response_user_issues[:status]}")
       end
 
       it 'includes the response body' do

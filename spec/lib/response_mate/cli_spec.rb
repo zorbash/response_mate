@@ -1,5 +1,3 @@
-# coding: utf-8
-
 require 'spec_helper'
 
 describe ResponseMate::CLI do
@@ -28,7 +26,7 @@ describe ResponseMate::CLI do
     end
   end
 
-  describe'#inspect' do
+  describe '#inspect' do
     before do
       allow(ResponseMate::Commands::Inspect).to receive(:new).and_return(command)
     end

@@ -1,5 +1,3 @@
-# coding: utf-8
-
 class ResponseMate::Commands::Inspect < ResponseMate::Commands::Base
   attr_reader :inspector
   attr_accessor :history

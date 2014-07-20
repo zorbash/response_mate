@@ -1,5 +1,3 @@
-# coding: utf-8
-
 module ResponseMate
   class Exporter
     attr_accessor :format, :handler, :manifest, :environment, :resource

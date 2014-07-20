@@ -1,4 +1,3 @@
-# coding: utf-8
 require 'thor'
 require 'colored'
 require 'awesome_print'
