@@ -2,12 +2,4 @@
 
 require 'response_mate'
 
-begin
-  ResponseMate::CLI.start(ARGV)
-rescue ResponseMate::OutputDirError
-  puts <<-OUT
-  Output directory does not exist, invoking setup..
-  Please retry after setup
-  OUT
-  ResponseMate::CLI.start(['setup'])
-end
+ResponseMate::CLI.start(ARGV)

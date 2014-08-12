@@ -19,20 +19,9 @@ module ResponseMate
       ResponseMate::Commands::Inspect.new(args, options).run
     end
 
-    desc 'setup', 'Initialize the required directory structure'
-    def setup(output_dir = '') # rubocop:disable Lint/UnusedMethodArgument
-      ResponseMate::Commands::Setup.new(args, options).run
-    end
-
-    desc 'clear [output_dir]', 'Delete existing response files'
-    def clear(output_dir = '') # rubocop:disable Lint/UnusedMethodArgument
-      ResponseMate::Commands::Clear.new(args, options).run
-    end
-
-    desc 'list [request_type] (requests or recordings)', 'List available recordings' \
-    'or keys to record'
+    desc 'list', 'List available keys to record or inspect'
     method_option :requests_manifest, aliases: '-r'
-    def list(type = 'requests') # rubocop:disable Lint/UnusedMethodArgument
+    def list # rubocop:disable Lint/UnusedMethodArgument
       ResponseMate::Commands::List.new(args, options).run
     end
 

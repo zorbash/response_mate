@@ -42,38 +42,6 @@ describe ResponseMate::CLI do
     end
   end
 
-  describe '#setup' do
-    before do
-      allow(ResponseMate::Commands::Setup).to receive(:new).and_return(command)
-    end
-
-    it 'initializes ResponseMate::Commands::setup' do
-      expect(ResponseMate::Commands::Setup).to receive(:new)
-      capture(:stdout) { ResponseMate::CLI.start %w[setup] }
-    end
-
-    it 'runs the command passing any given options, arguments' do
-      expect(command).to receive(:run)
-      capture(:stdout) { ResponseMate::CLI.start %w[setup] }
-    end
-  end
-
-  describe '#clear' do
-    before do
-      allow(ResponseMate::Commands::Clear).to receive(:new).and_return(command)
-    end
-
-    it 'initializes ResponseMate::Commands::Clear' do
-      expect(ResponseMate::Commands::Clear).to receive(:new)
-      capture(:stdout) { ResponseMate::CLI.start %w[clear] }
-    end
-
-    it 'runs the command passing any given options, arguments' do
-      expect(command).to receive(:run)
-      capture(:stdout) { ResponseMate::CLI.start %w[clear] }
-    end
-  end
-
   describe '#list' do
     before do
       allow(ResponseMate::Commands::List).to receive(:new).and_return(command)
