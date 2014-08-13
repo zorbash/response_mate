@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    response_mate (0.3.0)
+    response_mate (0.3.1)
       activesupport
       addressable
       awesome_print
