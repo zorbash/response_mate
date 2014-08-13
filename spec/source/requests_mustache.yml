@@ -1,0 +1,38 @@
+default_headers: &default_headers
+  accept: 'application/vnd.someapi+json; version=3'
+  authorization: 'Bearer {{oauth_token}}'
+
+description: |
+ A thorought description about the requests of this manifest.
+
+requests:
+  -
+    key: user_issues
+    meta:
+      description: The issues of the user
+    request:
+      url: 'www.someapi.com/user/42/issues'
+      headers:
+        <<: *default_headers
+
+  - key: user_friends
+    meta:
+      description: The friends of the user
+    request:
+      url: 'www.someapi.com/user/42/friends'
+      headers:
+        <<: *default_headers
+      params:
+        trusty: 'yes'
+        since: 'childhood'
+
+  - key: user_friends_with_mustache
+    meta:
+      description: The manlier friends of the user
+    request:
+      url: '{{base_url}}/user/42/friends'
+      headers:
+        <<: *default_headers
+      params:
+        trusty: 'yes'
+        since: 'adulthood'

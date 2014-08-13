@@ -3,13 +3,8 @@ require 'spec_helper'
 describe ResponseMate::Exporters::Postman::Collection do
   include_context 'stubbed_requests'
 
-  let(:environment) do
-    ResponseMate::Environment.new(ResponseMate.configuration.environment)
-  end
-
   let(:manifest) do
-    ResponseMate::Manifest.new(ResponseMate.configuration.requests_manifest,
-                               environment)
+    ResponseMate::Manifest.new(ResponseMate.configuration.requests_manifest)
   end
 
   describe '#export' do
@@ -109,6 +104,21 @@ describe ResponseMate::Exporters::Postman::Collection do
 
       describe 'headers' do
         it { expect(subject[:headers]).to be_a(String) }
+      end
+    end
+
+    context 'when the manifest contains mustache tags' do
+      before do
+        ResponseMate.stub_chain(:configuration, :requests_manifest).
+          and_return File.expand_path('spec/source/requests_mustache.yml')
+      end
+
+      describe 'requests' do
+        subject { exported[:requests].last }
+
+        it 'have mustache unprocessed' do
+          expect(subject[:url]).to match(/{{.*?}}/)
+        end
       end
     end
   end

@@ -10,7 +10,9 @@ class ResponseMate::Request < OpenStruct
       request[:verb] = 'GET'
     end
 
-    request[:url] = URI.encode(adjust_scheme(request[:url], request[:scheme]))
+    if request[:url] !~ /{{.*?}}/  # Avoid encoding unprocessed mustache tags
+      request[:url] = URI.encode(adjust_scheme(request[:url], request[:scheme]))
+    end
 
     self
   end
