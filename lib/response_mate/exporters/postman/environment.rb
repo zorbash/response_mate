@@ -20,9 +20,11 @@ class ResponseMate::Exporters::Postman
     private
 
     def build_structure
+      timestamp = Time.now.strftime("%Y%m%d%H%M%S")
+
       out.merge!(
         id: SecureRandom.uuid,
-        name: 'exported_environment',
+        name: "#{timestamp}_#{environment.env['environment_name'] || 'unnamed' }",
         values: [],
         timestamp: Time.now.to_i
       )
