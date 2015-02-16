@@ -31,5 +31,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'faraday_middleware'
   spec.add_dependency 'addressable'
   spec.add_dependency 'highline'
-  spec.add_dependency 'mustache'
+  spec.add_dependency 'mustache', '< 1.0.0'
 end
