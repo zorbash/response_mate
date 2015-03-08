@@ -8,6 +8,11 @@ Encoding.default_external = Encoding::UTF_8
 # Exit codes try to follow sysexits(3)
 begin
   ResponseMate::CLI.start(ARGV)
+rescue ManifestMissing => e
+  puts e.message
+  puts 'You may specify a different requests manifest file using the "-r" option'
+
+  exit 66 # EX_NOINPUT
 rescue OutputDirError => e
   puts e.message
   puts 'You may specify a different output directory using the "-o" option'
