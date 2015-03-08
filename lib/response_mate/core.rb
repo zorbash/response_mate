@@ -1,6 +1,7 @@
 # The main module of the tool contains configuration code and some constants
 module ResponseMate
   class OutputDirError < Errno::ENOENT; end
+  class ManifestMissing < Errno::ENOENT; end
   class KeysNotFound < StandardError; end
 
   # Methods handled by response_mate
