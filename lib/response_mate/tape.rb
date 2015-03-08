@@ -22,7 +22,7 @@ class ResponseMate::Tape
       f << file_content.to_yaml
     end
   rescue Errno::ENOENT
-    raise ResponseMate::OutputDirError
+    raise ResponseMate::OutputDirError.new(output_dir)
   end
 
   private

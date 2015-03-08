@@ -24,7 +24,7 @@ describe ResponseMate::Commands::Record do
       let(:cmd_with_output_dir) do
         quietly do
           ResponseMate::Commands::Record.new([], keys: [],
-                                                 output_dir: [other_output_dir]).run
+                                                 output_dir: other_output_dir).run
         end
       end
 
@@ -45,7 +45,8 @@ describe ResponseMate::Commands::Record do
         end
 
         it 'raises ResponeMate::OutputDirError' do
-          expect { cmd_with_output_dir }.to raise_error(ResponseMate::OutputDirError)
+          expect { cmd_with_output_dir }.to raise_error(ResponseMate::OutputDirError,
+                                                        /#{other_output_dir}/)
         end
       end
     end
