@@ -5,4 +5,12 @@ require 'response_mate'
 Encoding.default_internal = Encoding::UTF_8
 Encoding.default_external = Encoding::UTF_8
 
-ResponseMate::CLI.start(ARGV)
+# Exit codes try to follow sysexits(3)
+begin
+  ResponseMate::CLI.start(ARGV)
+rescue OutputDirError => e
+  puts e.message
+  puts 'You may specify a different output directory using the "-o" option'
+
+  exit 66 # EX_NOINPUT
+end
