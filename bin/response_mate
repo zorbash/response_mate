@@ -18,4 +18,8 @@ rescue OutputDirError => e
   puts 'You may specify a different output directory using the "-o" option'
 
   exit 66 # EX_NOINPUT
+rescue KeyNotFound => e
+  puts "The following keys where not found: #{e.message}"
+
+  exit 65 # EX_DATAERR
 end
