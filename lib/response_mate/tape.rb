@@ -28,15 +28,16 @@ class ResponseMate::Tape
   private
 
   def _utf8_encode(object)
-    case object
-    when String
-      object.force_encoding('UTF-8')
-    when Hash
-      object.each do |k, v| # rubocop:disable Lint/UnusedBlockArgument
-        k = _utf8_encode(v) # rubocop:disable Lint/UselessAssignment
-        v = _utf8_encode(v) # rubocop:disable Lint/UselessAssignment
+    if object.respond_to? :force_encoding
+      object.force_encoding('UTF-8').encode!
+    elsif object.is_a? Hash
+      object.reduce({}) do |h, (k, v)|
+        key = k.dup unless k.is_a? Symbol
+
+        h[_utf8_encode(key)] = _utf8_encode(v)
+        h
       end
-    when Array
+    elsif object.respond_to? :each
       object.each { |v| _utf8_encode(v) }
     end
   end
