@@ -5,7 +5,7 @@ module ResponseMate
   class KeysNotFound < StandardError; end
 
   # Methods handled by response_mate
-  HTTP_METHODS = %w[GET POST PUT PATCH DELETE HEAD OPTIONS]
+  HTTP_METHODS = Faraday::Connection::METHODS
 
   # Responsible for keeping initialization configuration values
   class Configuration

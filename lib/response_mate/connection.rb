@@ -23,10 +23,8 @@ class ResponseMate::Connection
       uri.query = query
     end
 
-    verb = request[:verb] || 'GET'
-
     client.headers = request[:headers] if request[:headers]
-    client.send verb.downcase.to_sym, uri.to_s
+    client.send request[:verb].downcase.to_sym, uri.to_s
   rescue Faraday::Error::ConnectionFailed
     puts "Is a server up and running at #{request[:path]}?".red
     exit 1
