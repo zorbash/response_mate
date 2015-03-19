@@ -6,8 +6,9 @@ class ResponseMate::Request < OpenStruct
   # Make sure all defined requests in the manifest have complete
   # information for {ResponseMate::Connection#fetch}
   def normalize!
-    unless ResponseMate::HTTP_METHODS.include? request[:verb]
-      request[:verb] = 'GET'
+    request[:verb] = begin
+      (ResponseMate::HTTP_METHODS & [request.fetch(:verb, 'GET').downcase.to_sym]).first ||
+      'GET'
     end
 
     if request[:url] !~ /{{.*?}}/  # Avoid encoding unprocessed mustache tags
