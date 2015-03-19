@@ -6,7 +6,7 @@
 [![Coverage Status](https://coveralls.io/repos/Zorbash/response_mate/badge.png?branch=master)](https://coveralls.io/r/Zorbash/response_mate?branch=master)
 [![Build Status](https://travis-ci.org/Zorbash/response_mate.svg)](https://travis-ci.org/Zorbash/response_mate)
 
-ResponseMate is a command line tool that aims to make inspecting and
+ResponseMate is a command line tool that helps inspecting and
 recording HTTP requests/responses. It is designed with APIs in mind.
 
 It is a cli supplement/replacement of [postman](https://github.com/a85/POSTMan-Chrome-Extension)
@@ -21,12 +21,12 @@ For help on a command run `response_mate help some_command`
 
 ## Setup
 A specific directory structure must be present to store the recordings.
-To scaffold it do:
-`response_mate setup`
+By default responses are stored under `./output/responses`, but the
+output directory is configurable using the `-o` option.
 
-ResponseMate's tasks heavily depend on a manifest file where you declare
+Most ResponseMate's tasks depend on a manifest file where you declare
 the requests to be made. The default expected filename of this manifest
-is `requests.yml`.
+is `requests.yml`. You may specify another file using the `-r` option.
 
 Example:
 
@@ -44,10 +44,11 @@ requests:
       url: 'http://someapi.com/users/42/friends'
       params:
         since: 'childhood'
-        honest: '{{are_my_friends_host}}'
+        honest: '{{are_my_friends_honest}}'
 ```
+
 Expressions inside `{{}}` will be evaluated as Mustache templates using
-values from a file `environment.yml` that may be present.
+values from a file `environment.yml`.
 
 ## Record
 ### Default
@@ -103,11 +104,6 @@ Exports a requests manifest file to a different format
 ### Upload the exported and get a link
 
 `response_mate export --resource=environment --upload`
-
-# List of contributors
-
-- [zorbash](https://github.com/zorbash)
-- [jimmikarily](https://github.com/jimmykarily)
 
 # Licence
 Released under the MIT License. See the
