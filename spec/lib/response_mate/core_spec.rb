@@ -1,11 +1,15 @@
 require 'spec_helper'
 
 describe ResponseMate::Configuration do
-  describe '.initialize' do
-    let(:subject) { ResponseMate::Configuration.new }
+  subject(:configuration) { ResponseMate::Configuration.new }
 
-    it 'assigns @output_dir' do
-      expect(subject.output_dir).to be_present
+  describe '.initialize' do
+    describe 'output_dir' do
+      subject { configuration.output_dir }
+
+      it 'has ./ as the default value' do
+        is_expected.to eq('./')
+      end
     end
 
     it 'assigns @requests_manifest' do
@@ -39,13 +43,6 @@ describe ResponseMate do
         ResponseMate.setup do |config|
           config.output_dir        = 'foo'
           config.requests_manifest = 'bar'
-        end
-      end
-
-      after do
-        ResponseMate.setup do |config|
-          config.output_dir        = './output/responses/'
-          config.requests_manifest = './requests.yml.erb'
         end
       end
 

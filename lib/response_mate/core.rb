@@ -12,7 +12,7 @@ module ResponseMate
     attr_accessor :output_dir, :requests_manifest, :environment
 
     def initialize
-      @output_dir = './output/responses/'
+      @output_dir = './'
       @requests_manifest = './requests.yml'
       @environment = './environment.yml'
     end
