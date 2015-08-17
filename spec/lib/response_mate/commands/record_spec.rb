@@ -10,8 +10,10 @@ describe ResponseMate::Commands::Record do
       end
 
       describe 'output files' do
+        subject { output_files.call }
+
         it 'creates on for each request' do
-          expect(output_files.call).to have_exactly(2).items
+          expect(subject.size).to eq(2)
         end
       end
     end
@@ -35,7 +37,7 @@ describe ResponseMate::Commands::Record do
         after { output_files.call.each { |file| File.delete(file) } }
 
         it 'created the tapes in the specified directory' do
-          expect(output_files.call).to have_exactly(2).items
+          expect(output_files.call.size).to eq(2)
         end
       end
 
@@ -55,7 +57,7 @@ describe ResponseMate::Commands::Record do
       it 'creates the tapes in the default output directory' do
         quietly { ResponseMate::Commands::Record.new([], keys: []).run }
 
-        expect(output_files.call).to have_exactly(2).items
+        expect(output_files.call.size).to eq(2)
       end
     end
 
@@ -68,7 +70,7 @@ describe ResponseMate::Commands::Record do
         end
 
         it 'creates an output response file' do
-          expect(output_files.call).to have_exactly(1).items
+          expect(output_files.call.size).to eq(1)
         end
 
         describe 'output response file' do
@@ -77,7 +79,7 @@ describe ResponseMate::Commands::Record do
           end
 
           it 'has the right file extension' do
-            expect(File.exist?(output_filename)).to be_true
+            expect(File.exist?(output_filename)).to be(true)
           end
 
           describe 'YAML content' do
@@ -92,13 +94,9 @@ describe ResponseMate::Commands::Record do
               expect(subject[:request][:verb]).to be_present
             end
 
-            it 'contains the original request path' do
-              pending
-            end
+            xit 'contains the original request path'
 
-            it 'contains the original request params' do
-              pending
-            end
+            xit 'contains the original request params'
 
             it 'contains the response status' do
               expect(subject[:response][:status]).

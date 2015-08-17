@@ -57,7 +57,7 @@ describe ResponseMate::Recorder do
     context 'with no keys specified' do
       it 'records all keys in the manifest' do
         quietly { subject.record([]) }
-        expect(output_files.call).to have_exactly(2).items
+        expect(output_files.call.size).to eq(2)
       end
     end
   end
