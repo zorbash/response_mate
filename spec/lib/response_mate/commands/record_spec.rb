@@ -36,7 +36,7 @@ describe ResponseMate::Commands::Record do
         before { cmd_with_output_dir }
         after { output_files.call.each { |file| File.delete(file) } }
 
-        it 'created the tapes in the specified directory' do
+        it 'creates the tapes in the specified directory' do
           expect(output_files.call.size).to eq(2)
         end
       end
