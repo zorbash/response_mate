@@ -66,12 +66,6 @@ Record all the keys of the requests manifest file being `requests.yml`
 
 `response_mate record -r foo_api.yml`
 
-## Clear
-
-Remove any existing recordings
-
-`response_mate clear`
-
 ## Inspect
 
 Performs the request and displays the output without recording
@@ -80,7 +74,7 @@ Performs the request and displays the output without recording
 
 ## List
 
-Lists existing recordings
+Lists recording keys, prompting either to record or to inspect
 
 `response_mate list`
 
