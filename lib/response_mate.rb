@@ -1,5 +1,5 @@
 require 'thor'
-require 'colored'
+require 'colorize'
 require 'awesome_print'
 require 'active_support/all'
 require 'faraday'

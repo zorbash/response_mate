@@ -20,7 +20,8 @@ class ResponseMate::Request < OpenStruct
 
   # @return [String] Output string suitable for a terminal
   def to_cli_format
-    out = "[#{key}] #{request[:verb]}".cyan_on_black.bold << " #{request[:url]}"
+    out = ["[#{key.yellow}] ", request[:verb].to_s.upcase.colorize(:cyan).on_black.bold,
+           " #{request[:url]}"].join
     out << "\tparams #{request[:params]}" if request[:params].present?
     out
   end
