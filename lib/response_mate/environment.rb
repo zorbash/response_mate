@@ -13,6 +13,12 @@ class ResponseMate::Environment
     parse
   end
 
+  # Check for environment file existence
+  # @return [TrueClass|FalseClass]
+  def exists?
+    File.exist? filename
+  end
+
   private
 
   def parse
