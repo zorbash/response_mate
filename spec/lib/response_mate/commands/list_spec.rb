@@ -3,8 +3,10 @@ require 'spec_helper'
 describe ResponseMate::Commands::List do
   include_context 'stubbed_requests'
 
-  subject { ResponseMate::Commands::List.new([], {}) }
+  let(:options) { {} }
   let(:cmd_output) { capture(:stdout) { subject.run } }
+
+  subject(:command) { ResponseMate::Commands::List.new([], options) }
 
   describe '#run' do
     before { subject.stub(:ask_action).and_return(:no) }
@@ -22,6 +24,47 @@ describe ResponseMate::Commands::List do
         it 'is recorded' do
           quietly { cmd_output }
           expect(File.basename(output_files.call.last)).to eq('user_friends.yml')
+        end
+
+        describe 'output directory' do
+          context 'when the output_dir option is specified' do
+            let(:custom_output_dir) do
+              File.expand_path('spec/source/other_output_dir')
+            end
+
+            let(:options) { { output_dir: custom_output_dir } }
+
+            context 'and it exists' do
+              let(:output_files) { -> { Dir[custom_output_dir + '/*'] } }
+
+              after { output_files.call.each { |file| File.delete(file) } }
+
+              it 'places the tapes in the specified directory' do
+                quietly { command.run }
+
+                expect(output_files.call.size).to eq(1)
+              end
+            end
+
+            context 'and it does not exist' do
+              let(:custom_output_dir) do
+                File.expand_path('spec/source/i_do_not_exist')
+              end
+
+              it 'raises ResponeMate::OutputDirError' do
+                expect { quietly { command.run } }.to raise_error(ResponseMate::OutputDirError,
+                                                      /#{custom_output_dir}/)
+              end
+            end
+          end
+
+          context 'when the output_dir options is not specified' do
+            it 'places the tapes in the default output directory' do
+              quietly { command.run }
+
+              expect(output_files.call.size).to eq(1)
+            end
+          end
         end
       end
     end

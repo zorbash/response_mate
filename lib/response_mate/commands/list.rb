@@ -3,19 +3,23 @@ class ResponseMate::Commands::List < ResponseMate::Commands::Base
   # Run the command based on args, options provided
   def run
     environment = ResponseMate::Environment.new(options[:environment])
-    @manifest = ResponseMate::Manifest.new(options[:requests_manifest], environment)
+    manifest = ResponseMate::Manifest.new(options[:requests_manifest], environment)
 
-    available_keys = @manifest.requests.map { |r| r.key.to_sym }
+    options[:manifest] = manifest
 
     puts available_keys.join("\n") << "\n\n"
-
     action = ask_action
+
     return if action == :no
 
     perform_action(action, ask_key(available_keys))
   end
 
   private
+
+  def available_keys
+    options[:manifest].requests.map { |r| r.key.to_sym }
+  end
 
   def ask_action
     choose do |menu|
@@ -34,9 +38,9 @@ class ResponseMate::Commands::List < ResponseMate::Commands::Base
   def perform_action(action, key)
     case action
     when :record
-      ResponseMate::Recorder.new(manifest: @manifest).record([key])
+      ResponseMate::Recorder.new(options).record([key])
     when :inspect
-      ResponseMate::Inspector.new(manifest: @manifest).inspect_key(key)
+      ResponseMate::Inspector.new(options).inspect_key(key)
     end
   end
 end
