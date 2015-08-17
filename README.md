@@ -20,8 +20,9 @@ For a list of available commands run `response_mate help`
 For help on a command run `response_mate help some_command`
 
 ## Setup
+
 A specific directory structure must be present to store the recordings.
-By default responses are stored under `./output/responses`, but the
+By default responses are stored in the current working directory, but the
 output directory is configurable using the `-o` option.
 
 Most ResponseMate's tasks depend on a manifest file where you declare
@@ -52,6 +53,7 @@ values from a file `environment.yml`.
 
 ## Record
 ### Default
+
 Record all the keys of the requests manifest file being `requests.yml`
 
 `response_mate record`
