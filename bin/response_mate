@@ -8,18 +8,18 @@ Encoding.default_external = Encoding::UTF_8
 # Exit codes try to follow sysexits(3)
 begin
   ResponseMate::CLI.start(ARGV)
-rescue ManifestMissing => e
-  puts e.message
-  puts 'You may specify a different requests manifest file using the "-r" option'
+rescue ResponseMate::ManifestMissing => e
+  puts ['The specified requests manifest '.red, e.message.underline, ' does not exist'.red].
+    join, 'You may specify a different requests manifest file using the "-r" option'
 
   exit 66 # EX_NOINPUT
-rescue OutputDirError => e
-  puts e.message
-  puts 'You may specify a different output directory using the "-o" option'
+rescue ResponseMate::OutputDirError => e
+  puts ['The specified output directory '.red, e.message.underline, ' does not exist'.red].
+    join, 'You may specify a different output directory using the "-o" option'
 
   exit 66 # EX_NOINPUT
-rescue KeyNotFound => e
-  puts "The following keys where not found: #{e.message}"
+rescue ResponseMate::KeysNotFound => e
+  puts "The following keys were not found: #{e.message.underline}".red
 
   exit 65 # EX_DATAERR
 end

@@ -12,8 +12,6 @@ module ResponseMate
       'key_to_record1 key_to_record2'
     def record
       ResponseMate::Commands::Record.new(args, options).run
-    rescue ResponseMate::KeysNotFound => e
-      puts "The requested keys: #{e.message} could not be found"
     end
 
     desc 'inspect [key1,key2]', 'Perform requests and print their output'

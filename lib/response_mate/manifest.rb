@@ -48,7 +48,7 @@ class ResponseMate::Manifest
     begin
       @requests_text = File.read filename
     rescue Errno::ENOENT
-      raise ManifestMissing.new(filename)
+      raise ResponseMate::ManifestMissing.new(filename)
     end
 
     if environment.present? # rubocop:disable Style/GuardClause
