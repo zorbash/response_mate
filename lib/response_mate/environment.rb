@@ -3,13 +3,12 @@
 # is a Hash which will be used for the rendering of the requests manifest as a
 # [Mustace template](http://mustache.github.io/mustache.5.html).
 class ResponseMate::Environment
-  attr_accessor :filename, :env, :environment_text
+  attr_accessor :filename, :env
 
   delegate :[], to: :env
 
   def initialize(filename)
     @filename = filename || ResponseMate.configuration.environment
-    @env = {}
     parse
   end
 
@@ -21,14 +20,9 @@ class ResponseMate::Environment
 
   private
 
+  # Set the env to the parsed YAML environment file
   def parse
-    begin
-      @environment_text = File.read filename
-    rescue Errno::ENOENT
-      puts filename.red << ' does not seem to exist'
-      exit 1
-    end
-
-    @env = ::YAML.load(environment_text)
+    return @env = {} unless exists?
+    @env = ::YAML.load_file(filename)
   end
 end
