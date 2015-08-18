@@ -3,9 +3,8 @@ class ResponseMate::Commands::Record < ResponseMate::Commands::Base
   # Run the command based on args, options provided
   def run
     environment = ResponseMate::Environment.new(options[:environment])
-    manifest = ResponseMate::Manifest.new(options[:requests_manifest], environment)
-
-    options[:manifest] = manifest
+    options[:manifest] = ResponseMate::Manifest.new(options[:requests_manifest],
+                                                    environment)
 
     recorder = ResponseMate::Recorder.new(options)
 

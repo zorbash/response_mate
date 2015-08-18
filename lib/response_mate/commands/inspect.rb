@@ -2,15 +2,14 @@ class ResponseMate::Commands::Inspect < ResponseMate::Commands::Base
   attr_reader :inspector
   attr_accessor :history
 
-  def initialize(args, options)
-    super(args, options)
-
-    @options[:manifest] = ResponseMate::Manifest.new(options[:requests_manifest])
-    @inspector = ResponseMate::Inspector.new(@options)
-    @history = []
-  end
-
   def run
+    environment = ResponseMate::Environment.new(options[:environment])
+    options[:manifest] = ResponseMate::Manifest.new(options[:requests_manifest],
+                                                    environment)
+
+    @inspector = ResponseMate::Inspector.new(options)
+    @history = []
+
     if args.empty?
       return $stderr.puts 'At least one key has to be specified'.red
     end

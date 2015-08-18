@@ -6,6 +6,8 @@ module ResponseMate
     desc 'record', 'Perform requests and record their output'
     method_option :requests_manifest, aliases: '-r', banner:
       'requests.yml'
+    method_option :environment, aliases: '-e', banner:
+      'environment.yml'
     method_option :output_dir, aliases: '-o', type: :string, banner:
       './a_dir_to_place_the_recordings'
     method_option :keys, aliases: '-k', type: :array, default: [], banner:
@@ -17,6 +19,8 @@ module ResponseMate
     desc 'inspect [key1,key2]', 'Perform requests and print their output'
     method_option :requests_manifest, aliases: '-r', banner:
       'requests.yml'
+    method_option :environment, aliases: '-e', banner:
+      'environment.yml'
     def inspect(*keys) # rubocop:disable Lint/UnusedMethodArgument
       ResponseMate::Commands::Inspect.new(args, options).run
     end
@@ -24,6 +28,8 @@ module ResponseMate
     desc 'list', 'List available keys to record or inspect'
     method_option :requests_manifest, aliases: '-r', banner:
       'requests.yml'
+    method_option :environment, aliases: '-e', banner:
+      'environment.yml'
     method_option :output_dir, aliases: '-o', type: :string, banner:
       './a_dir_to_place_the_recordings'
     def list # rubocop:disable Lint/UnusedMethodArgument
