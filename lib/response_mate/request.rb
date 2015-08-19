@@ -5,7 +5,7 @@ class ResponseMate::Request < OpenStruct
 
   # Make sure all defined requests in the manifest have complete
   # information for {ResponseMate::Connection#fetch}
-  def normalize!
+  def normalize! # rubocop:disable Metrics/AbcSize
     request[:verb] = begin
       (ResponseMate::HTTP_METHODS & [request.fetch(:verb, 'GET').downcase.to_sym]).first ||
       'GET'
@@ -19,7 +19,7 @@ class ResponseMate::Request < OpenStruct
   end
 
   # @return [String] Output string suitable for a terminal
-  def to_cli_format
+  def to_cli_format # rubocop:disable Metrics/AbcSize
     out = ["[#{key.yellow}] ", request[:verb].to_s.upcase.colorize(:cyan).on_black.bold,
            " #{request[:url]}"].join
     out << "\tparams #{request[:params]}" if request[:params].present?

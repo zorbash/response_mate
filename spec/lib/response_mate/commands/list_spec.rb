@@ -53,7 +53,7 @@ describe ResponseMate::Commands::List do
 
               it 'raises ResponeMate::OutputDirError' do
                 expect { quietly { command.run } }.to raise_error(ResponseMate::OutputDirError,
-                                                      /#{custom_output_dir}/)
+                                                                  /#{custom_output_dir}/)
               end
             end
           end

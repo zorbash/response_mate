@@ -20,7 +20,7 @@ class ResponseMate::Exporters::Postman
     private
 
     def build_structure
-      timestamp = Time.now.strftime("%Y%m%d%H%M%S")
+      timestamp = Time.now.strftime('%Y%m%d%H%M%S')
 
       out.merge!(
         id: SecureRandom.uuid,

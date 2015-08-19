@@ -14,7 +14,7 @@ class ResponseMate::Connection
 
   # Performs the supplied request
   # @param {ResponseMate::Request} The request to be performed
-  def fetch(request)
+  def fetch(request) # rubocop:disable Metrics/AbcSize
     uri = URI.parse(request[:url])
 
     if request[:params]

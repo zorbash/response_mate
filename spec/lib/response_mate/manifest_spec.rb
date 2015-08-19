@@ -10,7 +10,7 @@ describe ResponseMate::Manifest do
   around do |example|
     File.write filename, file_contents if filename
     quietly { example.run }
-    File.delete filename rescue Errno::ENOENT
+    File.delete filename rescue Errno::ENOENT # rubocop:disable Style/RescueModifier
   end
 
   describe '#filename' do
@@ -137,7 +137,7 @@ describe ResponseMate::Manifest do
     let(:description) { 'a short description of the requests contained in the manifest' }
     let(:file_contents) { "description: #{description}" }
 
-    subject { manifest.description}
+    subject { manifest.description }
 
     it { is_expected.to eq(description) }
   end

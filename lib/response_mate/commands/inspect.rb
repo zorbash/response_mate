@@ -2,7 +2,7 @@ class ResponseMate::Commands::Inspect < ResponseMate::Commands::Base
   attr_reader :inspector
   attr_accessor :history
 
-  def run
+  def run # rubocop:disable Metrics/AbcSize
     environment = ResponseMate::Environment.new(options[:environment])
     options[:manifest] = ResponseMate::Manifest.new(options[:requests_manifest],
                                                     environment)

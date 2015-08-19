@@ -1,7 +1,7 @@
 # Responsible for the recorded responses as files
 class ResponseMate::Tape
   # Writes the tape as a file
-  def write(key, request, response, meta = {}, output_dir = nil)
+  def write(key, request, response, meta = {}, output_dir = nil) # rubocop:disable Metrics/AbcSize
     output_dir ||= ResponseMate.configuration.output_dir
 
     output_path = File.join output_dir, "#{key}.yml"

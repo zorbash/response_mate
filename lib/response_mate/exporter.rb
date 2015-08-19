@@ -13,8 +13,9 @@ module ResponseMate
 
     # Returns the compatible transformed resource
     def export
-      @handler = "ResponseMate::Exporters::#{format.capitalize}".safe_constantize.
-        new manifest, environment, resource
+      @handler = "ResponseMate::Exporters::#{format.capitalize}".safe_constantize.new manifest,
+                                                                                      environment,
+                                                                                      resource
       handler.export
     end
   end

@@ -38,9 +38,10 @@ class ResponseMate::Manifest
     @name = parsed_manifest.fetch(:name, filename)
     @description = parsed_manifest.fetch(:description, '')
     check_requests(parsed_manifest)
-    @requests = parsed_manifest.fetch(:requests, []).
-      map(&:deep_symbolize_keys!).
-      map { |rh| ResponseMate::Request.new(rh).normalize! }
+    @requests = parsed_manifest.
+      fetch(:requests, []). # rubocop:disable Style/MultilineOperationIndentation
+      map(&:deep_symbolize_keys!). # rubocop:disable Style/MultilineOperationIndentation
+      map { |rh| ResponseMate::Request.new(rh).normalize! } # rubocop:disable Style/MultilineOperationIndentation
   end
 
   # Parse the manifest file as a template
