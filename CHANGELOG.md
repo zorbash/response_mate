@@ -16,6 +16,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Changed
 
+* The verb key in the recorded response is now lower cased Symbol (was
+  upper case String)
 * Manifests are preprocessed as Mustache templates only if they are
   identified as Mustache
 * ResponseMate::Manifest#requests_for_keys returns empty array for any
