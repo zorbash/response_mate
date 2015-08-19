@@ -4,6 +4,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+## [0.4.0] - 2015-08-19
+
 ## Added
 
 * `record`, `inspect`, `list` commands accept `-e` option to specify the

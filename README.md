@@ -7,27 +7,35 @@
 [![Build Status](https://travis-ci.org/Zorbash/response_mate.svg)](https://travis-ci.org/Zorbash/response_mate)
 
 ResponseMate is a command line tool that helps inspecting and
-recording HTTP requests/responses. It is designed with APIs in mind.
+recording HTTP requests/responses from a terminal.
 
-It is a cli supplement/replacement of [postman](https://github.com/a85/POSTMan-Chrome-Extension)
+It is designed with APIs in mind.
 
 #### Install
 `gem install response_mate`
 
+## Commands
+
+* [record](#record)
+* [list](#list)
+* [inspect](#inspect)
+* [export](#export)
+* [version](#version)
+
 ## Usage
 
-For a list of available commands run `response_mate help`
+For a list of available commands run `response_mate help`  
 For help on a command run `response_mate help some_command`
 
-## Setup
-
-A specific directory structure must be present to store the recordings.
-By default responses are stored in the current working directory, but the
-output directory is configurable using the `-o` option.
+## Requests Manifest
 
 Most ResponseMate's tasks depend on a manifest file where you declare
-the requests to be made. The default expected filename of this manifest
-is `requests.yml`. You may specify another file using the `-r` option.
+the requests to be made.  
+The default filename of this manifest is `requests.yml`.  
+You may specify another file using the `-r` option.
+This file has to be in [YAML](http://yaml.org/) format (but keep in mind
+that JSON is a valid compatible subset of YAML).
+
 
 Example:
 
@@ -48,23 +56,95 @@ requests:
         honest: '{{are_my_friends_honest}}'
 ```
 
-Expressions inside `{{}}` will be evaluated as Mustache templates using
-values from a file `environment.yml`.
+Expressions inside `{{}}` will be evaluated as
+[Mustache templates](http://mustache.github.io/mustache.5.html) using values from a file 
+named `environment.yml`.
+
+You may specify a different location for the environment file using the
+`-e` option.
+
+Example:
+
+```shell
+response_mate inspect issues_show -e ./response_mate/production_environment.yml
+```
+
+If your requests manifest does not contain
+[Mustache](http://mustache.github.io/mustache.5.html) tags you don't
+need an environment file.
+
+
+## Environment File
+
+In this file (default location: `./environment.yml`) you may place
+variables to be used in the [requests manifest](#requests-manifest).
+Where applicable you may configure the location of the environment file
+using the `-e` option.
+
+Example
+
+```yaml
+response_mate record -e ./github/production_environment.yml
+```
+
+This file has to be in [YAML](http://yaml.org/) format (but keep in mind
+that JSON is a valid compatible subset of YAML).
+
+
+```yaml
+# environment.yml
+base_url: http://api.github.com
+repo: rails/rails
+```
+
+Then in the [requests manifest](#requests-manifest) any values of keys
+declared in the environment file can be used as follows.
+
+```yaml
+# requests.yml
+requests:
+  -
+    key: repos_show
+    url: {{base_url}}/repos/{{repo}}
+```
 
 ## Record
-### Default
 
-Record all the keys of the requests manifest file being `requests.yml`
+Records the responses of HTTP requests declared in a [requests
+manifest](#requests-manifest) file.
 
-`response_mate record`
+```shell
+response_mate record
+```
 
-### Specific key(s)
+> By default responses are stored in the current working directory, but the
+output directory is configurable using the `-o` option.
 
-`response_mate record -k key1 key2`
+### Default Behavior
 
-### Specify a different request manifest
+Without any arguments / options it records all the keys of the [requests manifest](#requests-manifest).
 
-`response_mate record -r foo_api.yml`
+### Recording Specific Key(s)
+
+If you wish to record the responses of a subset of the declared requests
+in the [requests manifest](#requests-manifest), you may use the `-k`
+option. You have to provide a space separated list of keys to be recorded.
+
+```shell
+response_mate record -k key1 key2
+```
+
+### Custom Manifest Location
+
+The requests are expected to be declared in a file named `requests.yml`
+in the current working directory.
+
+You may have many request files to use for various purposes.
+To specify the one to be used you may supply the `-r` option.
+
+```shell
+response_mate record -r github_api.yml
+```
 
 ## Inspect
 
@@ -78,28 +158,45 @@ Lists recording keys, prompting either to record or to inspect
 
 `response_mate list`
 
+Same as in the [record](#record) command you may specify the output
+directory using the `-o` option.
+
 ## Export
 
-Exports a requests manifest file to a different format
-(currently only postman is supported)
+Exports either the [requests manifest](#requests-manifest) or the environment file
+to a different format (currently only [postman](http://getpostman.com) is supported)
 
-`response_mate export`
+```
+response_mate export
+```
 
 ### Export in pretty json
 
-`response_mate export -f postman -p`
+```shell
+response_mate export -f postman -p
+```
 
-### Specify a different request manifest
+### Custom Manifest Location
 
-`response_mate export -f postman -r foo_api.yml`
+```shell
+response_mate export -f postman -r github_requests.yml
+```
 
-### Export the environment.yml
+### Export the Environment File
 
-`response_mate export --resource=environment`
+```shell
+response_mate export --resource=environment
+```
 
 ### Upload the exported and get a link
 
-`response_mate export --resource=environment --upload`
+```shell
+response_mate export --resource=environment --upload
+```
+
+## Version
+
+Displays the version
 
 # Licence
 Released under the MIT License. See the
