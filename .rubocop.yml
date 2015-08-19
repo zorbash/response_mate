@@ -1,3 +1,8 @@
+AllCops:
+  Exclude:
+    - Guardfile
+    - response_mate.gemspec
+
 Style/LineLength:
   Max: 120
 
@@ -29,3 +34,6 @@ Style/SpaceInsideBlockBraces:
 Style/Blocks:
   Exclude:
     - spec/**/*.rb
+
+Style/EachWithObject:
+  Enabled: false
