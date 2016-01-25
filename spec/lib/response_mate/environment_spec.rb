@@ -24,7 +24,7 @@ describe ResponseMate::Environment do
       end
     end
 
-    describe 'env' do
+    describe '#env' do
       subject { environment.env }
 
       context 'when the file exists' do
