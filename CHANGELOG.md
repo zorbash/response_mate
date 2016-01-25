@@ -4,9 +4,15 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+## [0.4.1] - 2015-01-25
+
+### Fixed
+
+* Issue when filtering by key, in a requests manifest with a single key (@eavgerinos)
+
 ## [0.4.0] - 2015-08-19
 
-## Added
+### Added
 
 * `record`, `inspect`, `list` commands accept `-e` option to specify the
   environment file
@@ -16,7 +22,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * List command now accepts `-o` option to specify the output directory
   of recordings
 
-## Changed
+### Changed
 
 * The verb key in the recorded response is now lower cased Symbol (was
   upper case String)
@@ -29,7 +35,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * The default output directory for the recordings is the current working
   directory (used to be `./output/responses/`)
 
-## Fixed
+### Fixed
 
 * Exception handling for ManifestMissing, OutputDirError, KeysNotFound
   in bin/response_mate
