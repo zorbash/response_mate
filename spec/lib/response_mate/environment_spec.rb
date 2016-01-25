@@ -60,7 +60,7 @@ describe ResponseMate::Environment do
       it { is_expected.to be(true) }
     end
 
-    context 'when the file with filename exists does not exist' do
+    context 'when the file with filename does not exist' do
       it { is_expected.to be(false) }
     end
   end
