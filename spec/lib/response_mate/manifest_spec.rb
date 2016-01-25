@@ -160,8 +160,8 @@ describe ResponseMate::Manifest do
     end
 
     context 'when no key is missing' do
-      let(:keys) { %w[key1 key2] }
-      let(:existing_requests) { (keys + ['spare_key']).map { |key| double(key: key) } }
+      let(:keys) { %w[key1] }
+      let(:existing_requests) { keys.map { |key| double(key: key) } }
 
       before do
         allow(manifest).to receive(:requests).and_return(existing_requests)
