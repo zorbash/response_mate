@@ -26,6 +26,8 @@ class ResponseMate::Manifest
     requests.select! do |r|
       keys.include? r.key
     end
+
+    requests
   end
 
   private
