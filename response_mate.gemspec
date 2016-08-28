@@ -25,7 +25,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'thor', '~> 0.19'
   spec.add_dependency 'awesome_print'
-  spec.add_dependency 'activesupport'
+  spec.add_dependency 'activesupport', '< 5.0.0'
   spec.add_dependency 'colorize', '> 0.7.5'
   spec.add_dependency 'faraday'
   spec.add_dependency 'faraday_middleware'
