@@ -38,21 +38,37 @@ describe ResponseMate::Commands::Inspect do
         output.strip
       end
 
-      it 'displays the key, host, path, verb of the request' do
-        expect(captured_output).to include(mock_request.to_cli_format)
+      context 'and it exists in the manifest' do
+        it 'displays the key, host, path, verb of the request' do
+          expect(captured_output).to include(mock_request.to_cli_format)
+        end
+
+        it 'includes the response status' do
+          expect(captured_output).
+            to include(":status => #{fake_response_user_issues[:status]}")
+        end
+
+        it 'includes the response body' do
+          expect(captured_output).to include(%(:body => "#{fake_response_user_issues[:body]}"))
+        end
+
+        it 'includes the response headers' do
+          expect(captured_output).to include(fake_response_user_issues[:headers].values.last)
+        end
       end
 
-      it 'includes the response status' do
-        expect(captured_output).
-          to include(":status => #{fake_response_user_issues[:status]}")
-      end
+      context 'and it does not exist in the manifest' do
+        subject do
+          quietly do
+            capture(:stdout) do
+              ResponseMate::Commands::Inspect.new(['nonexistant_key'], {}).run
+            end
+          end
+        end
 
-      it 'includes the response body' do
-        expect(captured_output).to include(%(:body => "#{fake_response_user_issues[:body]}"))
-      end
-
-      it 'includes the response headers' do
-        expect(captured_output).to include(fake_response_user_issues[:headers].values.last)
+        it 'raises ResponseMate::KeysNotFound' do
+          expect { subject }.to raise_error(ResponseMate::KeysNotFound)
+        end
       end
     end
   end

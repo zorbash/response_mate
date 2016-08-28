@@ -13,6 +13,8 @@ class ResponseMate::Inspector
   def inspect_key(key)
     request = manifest.requests.find { |r| r.key == key }
 
+    fail ResponseMate::KeysNotFound.new(key) if request.nil?
+
     puts request.to_cli_format
     print_pretty(conn.fetch(request))
   end

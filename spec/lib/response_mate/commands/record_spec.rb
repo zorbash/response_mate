@@ -121,7 +121,7 @@ describe ResponseMate::Commands::Record do
           ResponseMate::Commands::Record.new([], keys: ['non_existing_key']).run
         end
 
-        it 'raises ResponseMate::KeysNotFound'do
+        it 'raises ResponseMate::KeysNotFound' do
           expect { subject }.to raise_error(ResponseMate::KeysNotFound)
         end
       end
