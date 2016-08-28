@@ -46,7 +46,7 @@ requests:
   -
     key: user_issues
     request:
-      url: 'http://someapi.com/users/42/issues
+      url: 'http://someapi.com/users/42/issues'
   -
     key: user_friends
     request:
