@@ -29,7 +29,8 @@ class ResponseMate::Tape
 
   def _utf8_encode(object)
     if object.respond_to? :force_encoding
-      object.force_encoding('UTF-8').encode!
+      object.force_encoding('UTF-8').
+             encode!('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '')
     elsif object.is_a? Hash
       object.reduce({}) do |h, (k, v)|
         key = k.dup unless k.is_a? Symbol
