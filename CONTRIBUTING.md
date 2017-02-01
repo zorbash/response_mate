@@ -26,7 +26,7 @@ do so.
 * Commit and push until you are happy with your contribution.
 * Make sure to add tests for it. This is important so I don't break it
   in a future version unintentionally.
-* Add an entry to the [Changelog](CHANGELOG.md) accordingly.
+* Add an entry to the [Changelog](CHANGELOG.md) accordingly (read: [packaging guidelines][packaging-guidelines]).
 * Make sure the test suite is passing and the code you wrote doesn't produce
   RuboCop offenses.
 * [Squash related commits together][5].
@@ -40,3 +40,4 @@ This text is adapted from [rubocop - contributing](https://github.com/bbatsov/ru
 [3]: https://github.com/agis-/git-style-guide
 [4]: https://help.github.com/articles/using-pull-requests
 [5]: http://gitready.com/advanced/2009/02/10/squashing-commits-with-rebase.html
+[packaging-guidelines]: https://zorbash.com/post/software-packaging-guidelines
