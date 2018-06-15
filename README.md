@@ -2,7 +2,6 @@
 
 [![Gem version](https://badge.fury.io/rb/response_mate.png)](http://badge.fury.io/rb/response_mate)
 [![Code Climate](https://codeclimate.com/github/Zorbash/response_mate.png)](https://codeclimate.com/github/Zorbash/response_mate)
-[![Dependencies tatus](https://gemnasium.com/Zorbash/response_mate.png)](https://gemnasium.com/Zorbash/response_mate)
 [![Coverage Status](https://coveralls.io/repos/Zorbash/response_mate/badge.png?branch=master)](https://coveralls.io/r/Zorbash/response_mate?branch=master)
 [![Build Status](https://travis-ci.org/Zorbash/response_mate.svg)](https://travis-ci.org/Zorbash/response_mate)
 
